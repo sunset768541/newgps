@@ -28,6 +28,10 @@ public class GPS {
     public static boolean drawthepath =false;
     public static BaiduMap baiduMap;
     public static boolean startflag=true;
+    public static double lo;
+    public static double la;
+    public static boolean isFirstLocation=true;
+    public static String ad;
    // public static OverlayOptions overlayOptions;
     public static void getLocation(){
 
