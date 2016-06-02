@@ -8,6 +8,9 @@ import android.content.pm.PackageManager;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.os.Handler;
+import android.os.Message;
+import android.os.Messenger;
 import android.provider.Settings;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
@@ -21,6 +24,9 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
+import com.baidu.location.LocationClientOption;
 import com.baidu.mapapi.SDKInitializer;
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.BaiduMapOptions;
@@ -44,9 +50,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
     private TextView x;
     private TextView y;
+    private TextView addr;
     private Button ok;
     //private LocationManager locationManager;
     //public Location ll;
+    /**
+     * dell git test
+     */
     private Calendar cc;
     MapView mMapView;
     LatLng lll;
@@ -59,12 +69,20 @@ public class MainActivity extends AppCompatActivity {
     //dell git test
 
 
+    Handler mhandle;
+    //LocationClient locationClient;
+    //BDLocationListener bdLocationListener;
+    public LocationClient mLocationClient = null;
+    public BDLocationListener myListener = new MyLocationListener();
     getGps gg=new getGps();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+        initLocation();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.che);
         actionBar.setDisplayUseLogoEnabled(true);
@@ -87,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         // map.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.textView);
+        addr=(TextView)findViewById(R.id.textView8);
         ok = (Button) findViewById(R.id.button);
         GPS.locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         GPS.getLocation();
@@ -96,7 +115,10 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //定义Maker坐标点
-                LatLng point = new LatLng(GPS.location1.getLatitude(), GPS.location1.getLongitude());
+                if (GPS.isFirstLocation){
+                mLocationClient.start();}
+
+                LatLng point = new LatLng(GPS.la, GPS.lo);
                 //构建Marker图标
                 BitmapDescriptor bitmap = BitmapDescriptorFactory
                         .fromResource(R.drawable.mal);
@@ -107,12 +129,11 @@ public class MainActivity extends AppCompatActivity {
                         .icon(bitmap);
                 //在地图上添加Marker，并显示
                 GPS.baiduMap.addOverlay(option);
-                lll = new LatLng(GPS.location1.getLatitude(), GPS.location1.getLongitude());
+                lll = new LatLng(GPS.la, GPS.lo);
                 u = MapStatusUpdateFactory.newLatLng(lll);
                 GPS.baiduMap.animateMapStatus(u);
-                x.setText("纬度为: " + Double.valueOf(GPS.location1.getLatitude()).toString());
-                //y.setText("经度为: " + Double.valueOf(GPS.location1.getLongitude()).toString());
-                y.setText("list数目: " + Integer.valueOf(gg.pts.size()).toString());
+
+               // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
             }
         });
@@ -120,6 +141,7 @@ public class MainActivity extends AppCompatActivity {
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mLocationClient.requestLocation();
                 if (GPS.startflag){
                 GPS.drawthepath=true;
                     GPS.startflag=false;
@@ -132,33 +154,29 @@ public class MainActivity extends AppCompatActivity {
                     GPS.startflag=true;
                 }
 
-//                LatLng pt1 = new LatLng(23.05657189, 113.37007428);
-//                LatLng pt2 = new LatLng(23.06657190, 113.38007429);
-//                LatLng pt3 = new LatLng(23.07657191, 113.390074210);
-//                LatLng pt4 = new LatLng(23.08657192, 113.36007430);
-//                LatLng pt5 = new LatLng(23.09657193, 113.35007431);
-//                List<LatLng> pts = new ArrayList<LatLng>();
-//                List<LatLng> pts1=new ArrayList<LatLng>();
-//                pts.add(pt1);
-//                pts.add(pt2);
-//                pts1.add(pt1);
-//                pts1.add(pt4);
-//                pts1.add(pt5);
-//                pts1.add(pt1);
-////构建用户绘制多边形的Option对象
-//                OverlayOptions polygonOption = new PolylineOptions()
-//                        .points(pts)
-//                        .color(0xAA00FF00);
-//                OverlayOptions polygonOption1 = new PolylineOptions()
-//                        .points(pts1)
-//                        .color(0xAAFF0000);
-////在地图上添加多边形Option，用于显示
-//                GPS.baiduMap.addOverlay(polygonOption1);
-//                GPS.baiduMap.addOverlay(polygonOption);//都可以显示
-
 
             }
         });
+         mhandle=new Handler(){
+            public void handleMessage(Message msg){
+                super.handleMessage(msg);
+                switch (msg.what){
+                    case 0:
+                        try {
+                            String []ss=(String [])msg.obj;
+                            x.setText(ss[0]);
+                            y.setText(ss[1]);
+                            addr.setText(ss[2]);
+                        }
+                        catch (Exception e){
+
+                        }
+
+
+
+                }
+            }
+        };
 
     }
 
@@ -183,4 +201,67 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.action, menu);
         return super.onCreateOptionsMenu(menu);
     }
+    private void initLocation(){
+        LocationClientOption option = new LocationClientOption();
+        option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
+        );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
+        option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
+        int span=2000;
+        option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
+        option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
+        option.setOpenGps(true);//可选，默认false,设置是否使用gps
+        option.setLocationNotify(true);//可选，默认false，设置是否当gps有效时按照1S1次频率输出GPS结果
+        option.setIsNeedLocationDescribe(true);//可选，默认false，设置是否需要位置语义化结果，可以在BDLocation.getLocationDescribe里得到，结果类似于“在北京天安门附近”
+        option.setIsNeedLocationPoiList(true);//可选，默认false，设置是否需要POI结果，可以在BDLocation.getPoiList里得到
+        option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
+        option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
+        option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
+        mLocationClient.setLocOption(option);
+    }
+    public class getGps extends Thread{
+        public List<LatLng> pts=new ArrayList<LatLng>();
+        public double alt=0;
+        public double aLo=0;
+        public String [] inf=new String[3];
+
+        public  int kk=0;
+        public void run(){
+            while (GPS.drawthepath){
+                if (!((alt==GPS.la)&&(aLo==GPS.lo))){
+                    Log.e("比较","alt="+Double.valueOf(alt).toString()+"  "+"loc1getlat="+GPS.location1.getLatitude()+"  "+"alo="+Double.valueOf(aLo).toString()+"  "+"loc1getlat="+GPS.location1.getLongitude());
+                    LatLng pp=new LatLng(GPS.la,GPS.lo);
+                    pts.add(pp);}
+                alt=GPS.la;
+                aLo=GPS.lo;
+                Log.e("List长度:",Integer.valueOf(pts.size()).toString());
+                mhandle.sendEmptyMessage(0);
+                inf[0]=Double.valueOf(alt).toString();
+                inf[1]=Double.valueOf(aLo).toString();
+                inf[2]=GPS.ad;
+                 Message msgg=new Message();
+                msgg.obj=inf;
+                mhandle.sendMessage(msgg);
+                try {
+
+                    OverlayOptions polygonOption = new PolylineOptions()
+                            .points(pts)
+                            .color(0xAA00FF00);
+                    GPS.baiduMap.addOverlay(polygonOption);
+
+
+                }
+                catch (Exception e){
+                    Log.e("yic",e.toString());
+                }
+                try {
+                    Thread.sleep(1500);
+
+                }
+                catch (Exception e){
+
+                }
+            }
+        }
+    }
+
 }
