@@ -54,6 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private Button ok;
     //private LocationManager locationManager;
     //public Location ll;
+    /**
+     * dell git test
+     */
     private Calendar cc;
     MapView mMapView;
     LatLng lll;
@@ -62,6 +65,10 @@ public class MainActivity extends AppCompatActivity {
     BaiduMapOptions baiduMapOptions;
     Button friend;
     //git tesee
+
+    //dell git test
+
+
     Handler mhandle;
     //LocationClient locationClient;
     //BDLocationListener bdLocationListener;
