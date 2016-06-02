@@ -6,6 +6,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.baidu.mapapi.map.BaiduMap;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
@@ -23,21 +24,29 @@ public class GPS {
     public static Location location1;
     public static LocationManager locationManager;
     public static LocationListener locationListener;
-    public static List<LatLng> pts;
+    //public static List<LatLng> pts;
     public static boolean drawthepath =false;
     public static BaiduMap baiduMap;
-    public static OverlayOptions overlayOptions;
+    public static boolean startflag=true;
+   // public static OverlayOptions overlayOptions;
     public static void getLocation(){
-        pts=new ArrayList<LatLng>();
+
         locationListener = new LocationListener() {
             public void onLocationChanged(Location location) {
                 // Called when a new location is found by the network location provider
                 location1 = location;
-                if (drawthepath){
-                    LatLng pp=new LatLng(location.getLatitude(),location.getLongitude());
-                    pts.add(pp);
-                     overlayOptions=new PolylineOptions().points(pts).color(0xAA00FF00);
-                }
+//                try {
+//                    if (drawthepath){
+//                        LatLng pp=new LatLng(location.getLatitude(),location.getLongitude());
+//                  //      pts.add(pp);
+//                        overlayOptions=new PolylineOptions().points(pts).color(0xaaff0000);
+//                        baiduMap.addOverlay(overlayOptions);
+//                }
+//
+//                }
+//                catch(Exception e){
+//                    Log.e("JJ","JJ");
+//                }
             }
 
             public void onStatusChanged(String provider, int status, Bundle extras) {

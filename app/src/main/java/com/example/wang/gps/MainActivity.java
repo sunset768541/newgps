@@ -32,9 +32,14 @@ import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.PolygonOptions;
+import com.baidu.mapapi.map.PolylineOptions;
+import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private TextView x;
@@ -50,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
     BaiduMapOptions baiduMapOptions;
     Button friend;
 
+    getGps gg=new getGps();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -101,14 +107,52 @@ public class MainActivity extends AppCompatActivity {
                 u = MapStatusUpdateFactory.newLatLng(lll);
                 GPS.baiduMap.animateMapStatus(u);
                 x.setText("纬度为: " + Double.valueOf(GPS.location1.getLatitude()).toString());
-                y.setText("经度为: " + Double.valueOf(GPS.location1.getLongitude()).toString());
+                //y.setText("经度为: " + Double.valueOf(GPS.location1.getLongitude()).toString());
+                y.setText("list数目: " + Integer.valueOf(gg.pts.size()).toString());
+
             }
         });
         Button set=(Button)findViewById(R.id.button3);
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (GPS.startflag){
                 GPS.drawthepath=true;
+                    GPS.startflag=false;
+                    gg=new getGps();
+                gg.start();}
+                else
+                {
+                    GPS.drawthepath=false;
+                    gg.pts.clear();
+                    GPS.startflag=true;
+                }
+
+//                LatLng pt1 = new LatLng(23.05657189, 113.37007428);
+//                LatLng pt2 = new LatLng(23.06657190, 113.38007429);
+//                LatLng pt3 = new LatLng(23.07657191, 113.390074210);
+//                LatLng pt4 = new LatLng(23.08657192, 113.36007430);
+//                LatLng pt5 = new LatLng(23.09657193, 113.35007431);
+//                List<LatLng> pts = new ArrayList<LatLng>();
+//                List<LatLng> pts1=new ArrayList<LatLng>();
+//                pts.add(pt1);
+//                pts.add(pt2);
+//                pts1.add(pt1);
+//                pts1.add(pt4);
+//                pts1.add(pt5);
+//                pts1.add(pt1);
+////构建用户绘制多边形的Option对象
+//                OverlayOptions polygonOption = new PolylineOptions()
+//                        .points(pts)
+//                        .color(0xAA00FF00);
+//                OverlayOptions polygonOption1 = new PolylineOptions()
+//                        .points(pts1)
+//                        .color(0xAAFF0000);
+////在地图上添加多边形Option，用于显示
+//                GPS.baiduMap.addOverlay(polygonOption1);
+//                GPS.baiduMap.addOverlay(polygonOption);//都可以显示
+
+
             }
         });
 
