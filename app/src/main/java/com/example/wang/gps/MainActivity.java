@@ -54,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     //LocationListener locationListener;
     BaiduMapOptions baiduMapOptions;
     Button friend;
+    //git tesee
 
     //dell git test
 
