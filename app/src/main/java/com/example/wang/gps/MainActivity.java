@@ -55,6 +55,9 @@ public class MainActivity extends AppCompatActivity {
     BaiduMapOptions baiduMapOptions;
     Button friend;
 
+    //dell git test
+
+
     getGps gg=new getGps();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
