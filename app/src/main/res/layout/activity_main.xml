@@ -76,6 +76,19 @@
                 android:text="地点"
                 android:id="@+id/textView8"
                 android:textColor="#aa00ff00" />
+
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="right">
+
+                <Switch
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="好友可见"
+                    android:id="@+id/switch2" />
+            </LinearLayout>
         </LinearLayout>
     </FrameLayout>
 

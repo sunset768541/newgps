@@ -79,6 +79,7 @@ public class MyLocationListener implements BDLocationListener {
         GPS.lo=location.getLongitude();
         GPS.la=location.getLatitude();
         GPS.ad=location.getLocationDescribe();
+        GPS.time=location.getTime();
         if (GPS.isFirstLocation){
             GPS.isFirstLocation=false;
             LatLng lll = new LatLng(location.getLatitude(), location.getLongitude());

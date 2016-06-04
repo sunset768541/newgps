@@ -3,7 +3,11 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+<<<<<<< HEAD
+=======
       <module fileurl="file://$PROJECT_DIR$/gps.iml" filepath="$PROJECT_DIR$/gps.iml" />
+>>>>>>> 2ccc5bf61114d76ad1eaefeb9cdb6b662c0e2751
+      <module fileurl="file://$PROJECT_DIR$/gspmacbook.iml" filepath="$PROJECT_DIR$/gspmacbook.iml" />
     </modules>
   </component>
 </project>
