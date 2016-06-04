@@ -15,6 +15,7 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -35,6 +36,7 @@ public class GPS {
     public static boolean showme=false;
     public static String username="王宝辉";
     public static String time;
+    public static Date dd;
    // public static String
    // public static OverlayOptions overlayOptions;
     public static void getLocation(){

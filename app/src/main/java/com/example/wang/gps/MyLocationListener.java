@@ -79,7 +79,8 @@ public class MyLocationListener implements BDLocationListener {
         GPS.lo=location.getLongitude();
         GPS.la=location.getLatitude();
         GPS.ad=location.getLocationDescribe();
-        GPS.time=location.getTime();
+        GPS.time=location.getTime();//getTime为只更新才会改变
+
         if (GPS.isFirstLocation){
             GPS.isFirstLocation=false;
             LatLng lll = new LatLng(location.getLatitude(), location.getLongitude());
@@ -88,6 +89,7 @@ public class MyLocationListener implements BDLocationListener {
         }
        // GPS.lo=location.getLongitude();
         //GPS.la=location.getLatitude();
+        Log.e("gps卫星数",Integer.valueOf(location.getSatelliteNumber()).toString());
         Log.i("BaiduLocationApiDem", sb.toString());
 
     }

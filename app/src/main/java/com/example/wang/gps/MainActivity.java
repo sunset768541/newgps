@@ -46,6 +46,7 @@ import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -149,13 +150,7 @@ public class MainActivity extends AppCompatActivity {
                 GPS.baiduMap.animateMapStatus(u);
 
 
-                try {
-                    boolean kk=sendlocation.sendGetRequest(hh,"UTF-8");
-                    Log.e("服务器介绍",Boolean.valueOf(kk).toString());
-                }
-                catch (Exception e){
-Log.e("kk","按你要");
-                }
+
 
                // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
@@ -257,7 +252,7 @@ Log.e("kk","按你要");
                     pts.add(pp);}
                 alt=GPS.la;
                 aLo=GPS.lo;
-                Log.e("List长度:",Integer.valueOf(pts.size()).toString());
+                Log.e("List长度:", Integer.valueOf(pts.size()).toString());
                 mhandle.sendEmptyMessage(0);
                 inf[0]=Double.valueOf(alt).toString();
                 inf[1]=Double.valueOf(aLo).toString();
@@ -265,7 +260,9 @@ Log.e("kk","按你要");
                  Message msgg=new Message();
                 msgg.obj=inf;
                 mhandle.sendMessage(msgg);
-                hh.put("ll", "问问");
+                GPS.dd=new Date();
+                hh.put("ll", Long.valueOf(GPS.dd.getTime()).toString());
+
                 try {
                     boolean kk=sendlocation.sendGetRequest(hh,"UTF-8");
                     Log.e("服务器介绍",Boolean.valueOf(kk).toString());

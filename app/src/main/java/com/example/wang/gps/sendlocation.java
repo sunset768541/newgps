@@ -6,6 +6,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.OutputStream;
+
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
@@ -15,7 +16,7 @@ import java.util.Map;
  * Created by wang on 2016/6/4.
  */
 public class sendlocation {
-   static final String urlPath="http://sunset.6655.la/abc/a.jsp";
+   static final String urlPath="http://sunset.6655.la/showand/a.jsp";
     static URL url;
    static boolean ppp;
     public static boolean sendGetRequest(Map<String, String> params, String enc) {
@@ -35,20 +36,25 @@ public class sendlocation {
         HttpURLConnection conn = (HttpURLConnection)url.openConnection();
         conn.setRequestMethod("GET");
         conn.setConnectTimeout(5 * 1000);
+            conn.setDoOutput(true);
         OutputStream outStream = conn.getOutputStream();
         byte[] entitydata = sb.toString().getBytes();//得到实体的二进制数据
+         Log.e("url",sb.toString());
         outStream.write(entitydata);
         outStream.flush();
         outStream.close();
-        if(conn.getResponseCode()==5000){
+            Log.e("网络连接", "发送数据完成");
+        if(conn.getResponseCode()<5000){
             ppp=true;
         }
             else {
-        ppp= false;}
+        ppp= false;
+        }
         }
         catch (Exception e){
-
+            Log.e("网络连接异常",Log.getStackTraceString(e));
         }
+
         return ppp;
     }
 
