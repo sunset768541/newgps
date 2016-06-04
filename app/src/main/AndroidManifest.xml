@@ -20,7 +20,7 @@
        >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="2FcCRTjAx985FQEkSKLbG1asNsa427m5"/>
+            android:value="ry3UuLspLx9O4A4kkYRfy1y1ANXWw9I"/>
         <activity android:name=".MainActivity"
             android:logo="@drawable/che">
             <intent-filter>

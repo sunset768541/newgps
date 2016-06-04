@@ -32,6 +32,10 @@ public class GPS {
     public static double la;
     public static boolean isFirstLocation=true;
     public static String ad;
+    public static boolean showme=false;
+    public static String username="王宝辉";
+    public static String time;
+   // public static String
    // public static OverlayOptions overlayOptions;
     public static void getLocation(){
 

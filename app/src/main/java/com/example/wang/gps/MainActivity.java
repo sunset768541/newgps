@@ -21,6 +21,7 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -45,6 +46,7 @@ import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView y;
     private TextView addr;
     private Button ok;
+    private Switch showme;
     //private LocationManager locationManager;
     //public Location ll;
     /**
@@ -68,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
 
     //dell git test
 
-
+    HashMap<String, String> hh=new HashMap<String, String>();
     Handler mhandle;
     //LocationClient locationClient;
     //BDLocationListener bdLocationListener;
@@ -81,13 +84,25 @@ public class MainActivity extends AppCompatActivity {
         SDKInitializer.initialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener( myListener );    //注册监听函数
+        mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initLocation();
         ActionBar actionBar = getSupportActionBar();
         actionBar.setLogo(R.drawable.che);
         actionBar.setDisplayUseLogoEnabled(true);
         actionBar.setDisplayShowHomeEnabled(true);
         actionBar.setTitle("定位");
+        showme=(Switch)findViewById(R.id.switch2);
+        showme.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (showme.isChecked()){
+                    GPS.showme=true;
+                }
+                else {
+                 GPS.showme=false;
+                }
+            }
+        });
         friend = (Button) findViewById(R.id.button2);
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -132,6 +147,15 @@ public class MainActivity extends AppCompatActivity {
                 lll = new LatLng(GPS.la, GPS.lo);
                 u = MapStatusUpdateFactory.newLatLng(lll);
                 GPS.baiduMap.animateMapStatus(u);
+
+
+                try {
+                    boolean kk=sendlocation.sendGetRequest(hh,"UTF-8");
+                    Log.e("服务器介绍",Boolean.valueOf(kk).toString());
+                }
+                catch (Exception e){
+Log.e("kk","按你要");
+                }
 
                // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
@@ -241,6 +265,14 @@ public class MainActivity extends AppCompatActivity {
                  Message msgg=new Message();
                 msgg.obj=inf;
                 mhandle.sendMessage(msgg);
+                hh.put("ll", "问问");
+                try {
+                    boolean kk=sendlocation.sendGetRequest(hh,"UTF-8");
+                    Log.e("服务器介绍",Boolean.valueOf(kk).toString());
+                }
+                catch (Exception e){
+                    Log.e("kk","按你要");
+                }
                 try {
 
                     OverlayOptions polygonOption = new PolylineOptions()
