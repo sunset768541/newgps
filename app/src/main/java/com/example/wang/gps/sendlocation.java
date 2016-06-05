@@ -16,7 +16,7 @@ import java.util.Map;
  * Created by wang on 2016/6/4.
  */
 public class sendlocation {
-   static final String urlPath="http://sunset.6655.la/showand/a.jsp";
+   static final String urlPath="http://sunset16405.xyz/ask/aa";
     static URL url;
    static boolean ppp;
     public static boolean sendGetRequest(Map<String, String> params, String enc) {
