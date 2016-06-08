@@ -151,7 +151,6 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-
                // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
             }
@@ -264,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                 hh.put("name", "服务器时间为："+Long.valueOf(GPS.dd.getTime()).toString()+"\r\n");
 
                 try {
-                    boolean kk=sendlocation.sendGetRequest(hh,"UTF-8");
+                    boolean kk=sendlocation.sendGetRequest(hh);
                     Log.e("服务器介绍",Boolean.valueOf(kk).toString());
                 }
                 catch (Exception e){

@@ -20,8 +20,8 @@
        >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="ry3UuLspLx9O4A4kkYRfy1y1ANXWw9I"/>
-        <activity android:name=".MainActivity"
+            android:value="qarAYLYPhVjVCX6FKwYktG6vdHDgx5Ad"/>
+        <activity android:name=".login"
             android:logo="@drawable/che">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -30,6 +30,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".friend">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
