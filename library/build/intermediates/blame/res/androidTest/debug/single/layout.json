@@ -32,12 +32,12 @@
         "source": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/abc_action_menu_item_layout.xml"
     },
     {
-        "merged": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_title_item.xml",
-        "source": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/abc_action_bar_title_item.xml"
-    },
-    {
         "merged": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/res/merged/androidTest/debug/layout/abc_activity_chooser_view_list_item.xml",
         "source": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/abc_activity_chooser_view_list_item.xml"
+    },
+    {
+        "merged": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/res/merged/androidTest/debug/layout/abc_action_bar_title_item.xml",
+        "source": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.1.0/res/layout/abc_action_bar_title_item.xml"
     },
     {
         "merged": "/Users/sunset/AndroidStudioProjects/gps/library/build/intermediates/res/merged/androidTest/debug/layout/select_dialog_singlechoice_material.xml",

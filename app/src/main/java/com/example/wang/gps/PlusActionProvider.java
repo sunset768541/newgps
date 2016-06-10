@@ -1,6 +1,8 @@
 package com.example.wang.gps;
 
 import android.content.Context;
+import android.content.Intent;
+import android.util.Log;
 import android.view.ActionProvider;
 import android.view.MenuItem;
 import android.view.MenuItem.OnMenuItemClickListener;
@@ -30,6 +32,12 @@ public class PlusActionProvider extends ActionProvider {
 				.setOnMenuItemClickListener(new OnMenuItemClickListener() {
 					@Override
 					public boolean onMenuItemClick(MenuItem item) {
+						addfrienddig mm = new addfrienddig(context, "添加朋友", new addfrienddig.OnCustomDialogListener() {
+							public void back(String name) {
+								Log.e("mydio", "jj");
+							}
+						});
+						mm.show();
 						return false;
 					}
 				});

@@ -30,15 +30,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".friend"
-            android:theme="@android:style/Theme.Holo"
-            android:logo="@drawable/fri40"
-            android:label="好友">
-            <intent-filter>
-                <action android:name="android.intent.action.EDIT"/>
-                <category android:name="android.intent.category.DEFAULT"/>
-            </intent-filter>
-        </activity>
         <activity android:name=".login"
            >
             <intent-filter>
@@ -46,7 +37,9 @@
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".systemseting">
+        <activity android:name=".systemseting"
+            android:theme ="@style/test"
+            >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>

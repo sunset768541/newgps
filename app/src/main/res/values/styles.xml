@@ -24,8 +24,14 @@
 <item name="android:windowTitleSize">40dp</item>
 <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
 </style>
+    <style name="CustomWindowTitleBackground1">
+        <item name="android:background">@drawable/bar</item>
+    </style>
 
-
+    <style name="test1" parent="android:Theme">
+        <item name="android:windowTitleSize">40dp</item>
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground1</item>
+    </style>
 
     <style name="CustomActionBarTheme" parent="@android:style/Theme.Holo.Light" type="text/css">
         <item name="android:actionBarStyle">@style/MyActionBar</item></style>

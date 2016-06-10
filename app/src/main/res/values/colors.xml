@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="background_tab_pressed">#6633B5E5</color>
+    <color name="background_tab_pressed">#fefefe</color>
     <color name="ab_backgroundSplit_color">#6633B5E5</color>
+    <color name="light_blue">#991155F5</color>
 </resources>

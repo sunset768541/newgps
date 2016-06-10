@@ -27,17 +27,17 @@ import com.astuetz.PagerSlidingTabStrip;
 public class Frie extends FragmentActivity {
 
 	/**
-	 * 聊天界面的Fragment
+	 * 所有好友Fragment
 	 */
 	private allfriends alf;
 
 	/**
-	 * 发现界面的Fragment
+	 * 在线界面的Fragment
 	 */
 	private onlinefriends onf;
 
 	/**
-	 * 通讯录界面的Fragment
+	 * 离线界面的Fragment
 	 */
 	private outlinefriends outf;
 
