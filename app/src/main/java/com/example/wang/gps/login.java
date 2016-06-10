@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.net.SocketTimeoutException;
 import java.util.HashMap;
 
 /**
@@ -28,6 +29,7 @@ public class login extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        sendlocation.getContext(this);
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
         loginb = (Button) findViewById(R.id.button5);
@@ -41,10 +43,13 @@ public class login extends Activity {
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
+
                             sendlocation.sendGetRequest(userlogin);
+
                             switch(Integer.parseInt(sendlocation.response)){
                                 case 0:{//dengl
                                     Log.e("登录", "ok");
+                                    GPS.username=username.getText().toString();
                                     Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
                                     startActivity(toMain);
                                     finish();
@@ -67,7 +72,9 @@ public class login extends Activity {
                     }).start();
                 } catch (NullPointerException e) {
                     Log.e("登录异常", Log.getStackTraceString(e));
+                    Looper.prepare();
                     Toast.makeText(login.this, "用户名或密码不能为空", Toast.LENGTH_SHORT).show();
+                    Looper.loop();
                 }
             }
         });

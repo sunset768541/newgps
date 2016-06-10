@@ -13,14 +13,18 @@ import android.os.Message;
 import android.os.Messenger;
 import android.provider.Settings;
 import android.support.v7.app.ActionBar;
+//import android.app.ActionBar;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -50,7 +54,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private TextView x;
     private TextView y;
     private TextView addr;
@@ -69,38 +73,42 @@ public class MainActivity extends AppCompatActivity {
     BaiduMapOptions baiduMapOptions;
     Button friend;
     //git tesee
-
+   // ActionBar actionBar;
     //dell git test
-
-    HashMap<String, String> hh=new HashMap<String, String>();
+    Switch lineonoff;
+    Switch footprint;
+    HashMap<String,String> hh = new HashMap<String,String>();
     Handler mhandle;
     //LocationClient locationClient;
     //BDLocationListener bdLocationListener;
     public LocationClient mLocationClient = null;
     public BDLocationListener myListener = new MyLocationListener();
-    getGps gg=new getGps();
+    OnLine onLine = new OnLine();
+    ShowFootprint shof=new ShowFootprint();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
         setContentView(R.layout.activity_main);
+        FriendInf.getCo(getApplicationContext());
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);//自定义布局赋
         mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
         mLocationClient.registerLocationListener(myListener);    //注册监听函数
         initLocation();
-        ActionBar actionBar = getSupportActionBar();
-        actionBar.setLogo(R.drawable.che);
-        actionBar.setDisplayUseLogoEnabled(true);
-        actionBar.setDisplayShowHomeEnabled(true);
-        actionBar.setTitle("定位");
-        showme=(Switch)findViewById(R.id.switch2);
+  //      actionBar = getSupportActionBar();
+    //    actionBar.setLogo(R.drawable.che);
+      //  actionBar.setDisplayUseLogoEnabled(true);
+        //actionBar.setDisplayShowHomeEnabled(true);
+
+        showme = (Switch) findViewById(R.id.switch2);
         showme.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (showme.isChecked()){
-                    GPS.showme=true;
-                }
-                else {
-                 GPS.showme=false;
+                if (showme.isChecked()) {
+                    GPS.showme = true;
+                } else {
+                    GPS.showme = false;
                 }
             }
         });
@@ -108,7 +116,7 @@ public class MainActivity extends AppCompatActivity {
         friend.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent ii = new Intent(getApplication(), com.example.wang.gps.friend.class);
+                Intent ii = new Intent(getApplication(), com.example.wang.gps.Frie.class);
                 startActivity(ii);
             }
         });
@@ -121,9 +129,9 @@ public class MainActivity extends AppCompatActivity {
         // map.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.textView);
-        addr=(TextView)findViewById(R.id.textView8);
+        addr = (TextView) findViewById(R.id.textView8);
         ok = (Button) findViewById(R.id.button);
-        GPS.locationManager=(LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
+        GPS.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         GPS.getLocation();
         //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         testGps();
@@ -131,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //定义Maker坐标点
-                if (GPS.isFirstLocation){
-                mLocationClient.start();}
+                if (GPS.isFirstLocation) {
+                    mLocationClient.start();
+                }
 
                 LatLng point = new LatLng(GPS.la, GPS.lo);
                 //构建Marker图标
@@ -148,56 +157,76 @@ public class MainActivity extends AppCompatActivity {
                 lll = new LatLng(GPS.la, GPS.lo);
                 u = MapStatusUpdateFactory.newLatLng(lll);
                 GPS.baiduMap.animateMapStatus(u);
+                mLocationClient.requestLocation();
 
 
-
-               // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
+                // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
             }
         });
-        Button set=(Button)findViewById(R.id.button3);
+        Button set = (Button) findViewById(R.id.button3);
         set.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mLocationClient.requestLocation();
-                if (GPS.startflag){
-                GPS.drawthepath=true;
-                    GPS.startflag=false;
-                    gg=new getGps();
-                   gg.start();}
-                else
-                {
-                    GPS.drawthepath=false;
-                    gg.pts.clear();
-                    GPS.startflag=true;
-                }
-
-
+                Intent gotoset = new Intent(getApplication(), com.example.wang.gps.systemseting.class);
+                startActivity(gotoset);
             }
         });
-         mhandle=new Handler(){
-            public void handleMessage(Message msg){
+        mhandle = new Handler() {
+            public void handleMessage(Message msg) {
                 super.handleMessage(msg);
-                switch (msg.what){
+                switch (msg.what) {
                     case 0:
                         try {
-                            String []ss=(String [])msg.obj;
+                            String[] ss = (String[]) msg.obj;
                             x.setText(ss[0]);
                             y.setText(ss[1]);
                             addr.setText(ss[2]);
-                        }
-                        catch (Exception e){
+                        } catch (Exception e) {
 
                         }
-
 
 
                 }
             }
         };
+        lineonoff = (Switch) findViewById(R.id.switch2);
+        lineonoff.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GPS.drawthepath = true;
+                    // GPS.startflag=false;
+                    onLine = new OnLine();
+                    onLine.start();
+                } else {
+                    GPS.drawthepath = false;
+
+                    //  GPS.startflag=true;
+                }
+
+            }
+        });
+        footprint = (Switch) findViewById(R.id.switch3);
+        footprint.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    GPS.showfootprint=true;
+                    shof=new ShowFootprint();
+                    shof.start();
+                } else {
+                    GPS.showfootprint=false;
+                }
+            }
+        });
+
+
 
     }
-
+    public void setactionbartitle(String title){
+        //actionBar.setTitle(title);
+    }
     private void testGps() {
 
         if (GPS.locationManager.isProviderEnabled(android.location.LocationManager.GPS_PROVIDER)) {
@@ -213,18 +242,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.action, menu);
         return super.onCreateOptionsMenu(menu);
     }
-    private void initLocation(){
+
+    private void initLocation() {
         LocationClientOption option = new LocationClientOption();
         option.setLocationMode(LocationClientOption.LocationMode.Hight_Accuracy
         );//可选，默认高精度，设置定位模式，高精度，低功耗，仅设备
         option.setCoorType("bd09ll");//可选，默认gcj02，设置返回的定位结果坐标系
-        int span=2000;
+        int span = 2000;
         option.setScanSpan(span);//可选，默认0，即仅定位一次，设置发起定位请求的间隔需要大于等于1000ms才是有效的
         option.setIsNeedAddress(true);//可选，设置是否需要地址信息，默认不需要
         option.setOpenGps(true);//可选，默认false,设置是否使用gps
@@ -236,39 +265,69 @@ public class MainActivity extends AppCompatActivity {
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
         mLocationClient.setLocOption(option);
     }
-    public class getGps extends Thread{
-        public List<LatLng> pts=new ArrayList<LatLng>();
-        public double alt=0;
-        public double aLo=0;
-        public String [] inf=new String[3];
 
-        public  int kk=0;
-        public void run(){
-            while (GPS.drawthepath){
-                if (!((alt==GPS.la)&&(aLo==GPS.lo))){
-                    Log.e("比较","alt="+Double.valueOf(alt).toString()+"  "+"loc1getlat="+GPS.location1.getLatitude()+"  "+"alo="+Double.valueOf(aLo).toString()+"  "+"loc1getlat="+GPS.location1.getLongitude());
-                    LatLng pp=new LatLng(GPS.la,GPS.lo);
-                    pts.add(pp);}
-                alt=GPS.la;
-                aLo=GPS.lo;
-                Log.e("List长度:", Integer.valueOf(pts.size()).toString());
+    public class OnLine extends Thread {
+
+        public double alt = 0;
+        public double aLo = 0;
+        public String[] inf = new String[3];
+
+        public int kk = 0;
+
+        public void run() {
+            while (GPS.drawthepath) {
+                alt = GPS.la;
+                aLo = GPS.lo;
                 mhandle.sendEmptyMessage(0);
-                inf[0]=Double.valueOf(alt).toString();
-                inf[1]=Double.valueOf(aLo).toString();
-                inf[2]=GPS.ad;
-                 Message msgg=new Message();
-                msgg.obj=inf;
+                inf[0] = Double.valueOf(alt).toString();
+                inf[1] = Double.valueOf(aLo).toString();
+                inf[2] = GPS.ad;
+                Message msgg = new Message();
+                msgg.obj = inf;
                 mhandle.sendMessage(msgg);
-                GPS.dd=new Date();
-                hh.put("name", "服务器时间为："+Long.valueOf(GPS.dd.getTime()).toString()+"\r\n");
+                GPS.dd = new Date();
+                hh.put("commond", "insertdata");
+                hh.put("username",GPS.username);
+                hh.put("time", Long.valueOf(GPS.dd.getTime()).toString());
+                hh.put("latitude", Double.valueOf(GPS.la).toString());
+                hh.put("longtitude", Double.valueOf(GPS.lo).toString());
+                hh.put("addr", GPS.ad);
+                if (GPS.ad == null) {
+              //      setactionbartitle(GPS.ad);
+                }
+                try {
+                    boolean kk = sendlocation.sendGetRequest(hh);
+                    Log.e("服务器介绍", Boolean.valueOf(kk).toString());
+                } catch (Exception e) {
+                    Log.e("kk", "按你要");
+                }
 
                 try {
-                    boolean kk=sendlocation.sendGetRequest(hh);
-                    Log.e("服务器介绍",Boolean.valueOf(kk).toString());
+                    Thread.sleep(2000);
+
+                } catch (Exception e) {
+                    Log.e("sleep", e.toString());
                 }
-                catch (Exception e){
-                    Log.e("kk","按你要");
+            }
+        }
+    }
+
+    public class ShowFootprint extends Thread {
+        public List<LatLng> pts = new ArrayList<LatLng>();
+        public double alt = 0;
+        public double aLo = 0;
+
+        public void run() {
+
+            while (GPS.showfootprint) {
+                if (!((alt == GPS.la) && (aLo == GPS.lo))) {
+                    // Log.e("比较", "alt=" + Double.valueOf(alt).toString() + "  " + "loc1getlat=" + GPS.location1.getLatitude() + "  " + "alo=" + Double.valueOf(aLo).toString() + "  " + "loc1getlat=" + GPS.location1.getLongitude());
+                    LatLng pp = new LatLng(GPS.la, GPS.lo);
+                    pts.add(pp);
                 }
+                alt = GPS.la;
+                aLo = GPS.lo;
+                Log.e("List长度:", Integer.valueOf(pts.size()).toString());
                 try {
 
                     OverlayOptions polygonOption = new PolylineOptions()
@@ -277,18 +336,17 @@ public class MainActivity extends AppCompatActivity {
                     GPS.baiduMap.addOverlay(polygonOption);
 
 
-                }
-                catch (Exception e){
-                    Log.e("yic",e.toString());
+                } catch (Exception e) {
+                    Log.e("yic", e.toString());
                 }
                 try {
-                    Thread.sleep(2000);
+                    Thread.sleep(3000);
 
-                }
-                catch (Exception e){
-                    Log.e("sleep",e.toString());
+                } catch (Exception e) {
+                    Log.e("sleep", e.toString());
                 }
             }
+
         }
     }
 

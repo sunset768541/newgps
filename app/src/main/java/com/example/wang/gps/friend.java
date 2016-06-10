@@ -13,7 +13,6 @@ public class friend extends FragmentActivity {
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.friend);
         fragmentTabHost=(FragmentTabHost)findViewById(R.id.view);
         fragmentTabHost.setup(this,getSupportFragmentManager(),R.id.tabcontent);

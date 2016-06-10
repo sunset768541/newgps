@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wang.gps.MainActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+   >
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -80,14 +81,8 @@
                         android:textOff="离线"
                         android:textOn="在线" />
                 </LinearLayout>
-            </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="纬度"
-                android:id="@+id/x"
-                android:textColor="#ffff0000" />
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -97,7 +92,36 @@
                 android:id="@+id/textView8"
                 android:textColor="#aa00ff00" />
 
+            <LinearLayout
+                android:orientation="horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="纬度"
+                    android:id="@+id/x"
+                    android:textColor="#ffff0000" />
+
+                <LinearLayout
+                    android:orientation="horizontal"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="right">
+
+                    <Switch
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/switch3"
+                        android:textOff="关闭"
+                        android:textOn="足迹" />
+                </LinearLayout>
+
+            </LinearLayout>
+
         </LinearLayout>
+
     </FrameLayout>
 
 </LinearLayout>

@@ -31,7 +31,7 @@ public class mydilog extends Dialog {
         super(context);
         this.name = name;
         mycontext=context;
-
+        sendlocation.getContext(mycontext);
         this.customDialogListener = customDialogListener;
     }
 
@@ -55,8 +55,10 @@ public class mydilog extends Dialog {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
+
                                 sendlocation.sendGetRequest(getuser);
-                                Log.e("recode",Integer.valueOf(sendlocation.recode).toString());
+
+                                Log.e("recode",sendlocation.response);
                                 switch(Integer.parseInt(sendlocation.response)){
                                     case 0:{//注册成功
                                         Log.e("注册", "ok");

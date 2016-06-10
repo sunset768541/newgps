@@ -5,5 +5,5 @@
     <item android:id="@+id/menu_save"
         android:icon="@drawable/che"
         android:title="123"
-        app:showAsAction="always" />
+        android:showAsAction="always" />
 </menu>

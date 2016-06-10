@@ -17,25 +17,45 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
+        android:persistent="true"
        >
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
             android:value="qarAYLYPhVjVCX6FKwYktG6vdHDgx5Ad"/>
-        <activity android:name=".login"
-            android:logo="@drawable/che">
+        <activity android:name=".MainActivity"
+            android:theme="@style/test">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".friend">
+        <activity android:name=".friend"
+            android:theme="@android:style/Theme.Holo"
+            android:logo="@drawable/fri40"
+            android:label="好友">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>
             </intent-filter>
         </activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".login"
+           >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".systemseting">
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".Frie"
+            android:theme="@style/CustomActionBarTheme"
+            android:logo="@drawable/fri40w"
+            android:label="好友">
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
                 <category android:name="android.intent.category.DEFAULT"/>

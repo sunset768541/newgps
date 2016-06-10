@@ -28,13 +28,13 @@ public class GPS {
     //public static List<LatLng> pts;
     public static boolean drawthepath =false;
     public static BaiduMap baiduMap;
-    public static boolean startflag=true;
+    public static boolean showfootprint=false;
     public static double lo;
     public static double la;
     public static boolean isFirstLocation=true;
     public static String ad;
     public static boolean showme=false;
-    public static String username="王宝辉";
+    public static String username=null;
     public static String time;
     public static Date dd;
    // public static String
