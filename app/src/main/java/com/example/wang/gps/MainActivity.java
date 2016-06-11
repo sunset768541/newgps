@@ -41,6 +41,7 @@ import com.baidu.mapapi.map.MapPoi;
 import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolygonOptions;
@@ -66,9 +67,7 @@ public class MainActivity extends Activity {
      * dell git test
      */
     private Calendar cc;
-    MapView mMapView;
-    LatLng lll;
-    MapStatusUpdate u;
+
     //LocationListener locationListener;
     BaiduMapOptions baiduMapOptions;
     Button friend;
@@ -81,8 +80,7 @@ public class MainActivity extends Activity {
     Handler mhandle;
     //LocationClient locationClient;
     //BDLocationListener bdLocationListener;
-    public LocationClient mLocationClient = null;
-    public BDLocationListener myListener = new MyLocationListener();
+
     OnLine onLine = new OnLine();
     ShowFootprint shof=new ShowFootprint();
     @Override
@@ -92,9 +90,10 @@ public class MainActivity extends Activity {
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
         setContentView(R.layout.activity_main);
         FriendInf.getCo(getApplicationContext());
+       Userinfo.gc(getApplication());
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);//自定义布局赋
-        mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
-        mLocationClient.registerLocationListener(myListener);    //注册监听函数
+       GPS.mLocationClient = new LocationClient(getApplicationContext());     //声明LocationClient类
+        GPS.mLocationClient.registerLocationListener(GPS.myListener);    //注册监听函数
         initLocation();
   //      actionBar = getSupportActionBar();
     //    actionBar.setLogo(R.drawable.che);
@@ -120,8 +119,8 @@ public class MainActivity extends Activity {
                 startActivity(ii);
             }
         });
-        mMapView = (MapView) findViewById(R.id.bmapView);
-        GPS.baiduMap = mMapView.getMap();
+       GPS.mMapView = (MapView) findViewById(R.id.bmapView);
+        GPS.baiduMap = GPS.mMapView.getMap();
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory
                 .zoomBy(3);
         GPS.baiduMap.animateMapStatus(mapStatusUpdate);
@@ -135,29 +134,62 @@ public class MainActivity extends Activity {
         GPS.getLocation();
         //locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
         testGps();
+        GPS.baiduMap.setOnMarkerClickListener(new BaiduMap.OnMarkerClickListener() {
+
+            @Override
+            public boolean onMarkerClick(Marker arg0) {
+                // TODO Auto-generated method stub
+                String value=arg0.getTitle();
+//                switch (value){
+//                    case
+//                }
+                for (int i=0;i<FriendInf.markerfri.size();i++){
+                    if (value.equals(FriendInf.markerfri.get(i))){
+                        markerDig mm = new markerDig(MainActivity.this, "用户信息",(HashMap)FriendInf.firinf.get(value));
+                        mm.show();
+                    }
+                }
+//                if (value.equals(Userinfo.username)){
+//                    HashMap<String,Object> usin=new HashMap<String, Object>();
+//                    usin.put("userhead",Userinfo.userhead);
+//                    usin.put("username","用户名: "+Userinfo.username);
+//                    usin.put("add","地址: 广州市番禹区      ");
+//                    usin.put("stat","状态: 移动中");
+//                    markerDig mm = new markerDig(MainActivity.this, "用户信息",usin);
+//                    mm.show();
+//                Toast.makeText(getApplicationContext(), "Marker被点击了！", Toast.LENGTH_SHORT).show();
+//                }
+//                else
+//                    Toast.makeText(getApplicationContext(), "未知mark！", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        });
+
         ok.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //定义Maker坐标点
                 if (GPS.isFirstLocation) {
-                    mLocationClient.start();
+                    GPS.mLocationClient.start();
                 }
 
                 LatLng point = new LatLng(GPS.la, GPS.lo);
                 //构建Marker图标
-                BitmapDescriptor bitmap = BitmapDescriptorFactory
-                        .fromResource(R.drawable.mal);
+                BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(BitmapUtil.getMarkerBitmap(Userinfo.userhead));
+                        //.fromResource(R.drawable.mal);
                 //构建MarkerOption，
                 // 用于在地图上添加Marker
-                OverlayOptions option = new MarkerOptions()
+//               Bundle info= new Bundle();
+//                info.putString("markeid", );
+                 GPS.option = new MarkerOptions()
                         .position(point)
-                        .icon(bitmap);
+                        .icon(bitmap).title(Userinfo.username);
                 //在地图上添加Marker，并显示
-                GPS.baiduMap.addOverlay(option);
-                lll = new LatLng(GPS.la, GPS.lo);
-                u = MapStatusUpdateFactory.newLatLng(lll);
-                GPS.baiduMap.animateMapStatus(u);
-                mLocationClient.requestLocation();
+                GPS.baiduMap.addOverlay(GPS.option);
+                GPS.lll = new LatLng(GPS.la, GPS.lo);
+               GPS.u = MapStatusUpdateFactory.newLatLng(GPS.lll);
+                GPS.baiduMap.animateMapStatus(GPS.u);
+                GPS.mLocationClient.requestLocation();
 
 
                 // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
@@ -263,7 +295,7 @@ public class MainActivity extends Activity {
         option.setIgnoreKillProcess(false);//可选，默认true，定位SDK内部是一个SERVICE，并放到了独立进程，设置是否在stop的时候杀死这个进程，默认不杀死
         option.SetIgnoreCacheException(false);//可选，默认false，设置是否收集CRASH信息，默认收集
         option.setEnableSimulateGps(false);//可选，默认false，设置是否需要过滤gps仿真结果，默认需要
-        mLocationClient.setLocOption(option);
+        GPS.mLocationClient.setLocOption(option);
     }
 
     public class OnLine extends Thread {
@@ -287,7 +319,7 @@ public class MainActivity extends Activity {
                 mhandle.sendMessage(msgg);
                 GPS.dd = new Date();
                 hh.put("commond", "insertdata");
-                hh.put("username",GPS.username);
+                hh.put("username",Userinfo.username);
                 hh.put("time", Long.valueOf(GPS.dd.getTime()).toString());
                 hh.put("latitude", Double.valueOf(GPS.la).toString());
                 hh.put("longtitude", Double.valueOf(GPS.lo).toString());

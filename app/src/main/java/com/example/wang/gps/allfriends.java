@@ -2,6 +2,9 @@ package com.example.wang.gps;
 
 //import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -12,6 +15,13 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+
+import com.baidu.mapapi.map.BitmapDescriptor;
+import com.baidu.mapapi.map.BitmapDescriptorFactory;
+import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MarkerOptions;
+import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,7 +78,30 @@ public class allfriends extends Fragment{
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                    String usename=FriendInf.allfirname[position];
+                    BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(BitmapUtil.getMarkerBitmap(BitmapFactory.decodeResource(getResources(), FriendInf.head[position])));
+                    String add=FriendInf.addr[position];
+                    String sta=FriendInf.sta[position];
+                    HashMap<String,Object> usin=new HashMap<String, Object>();
+                    usin.put("userhead",BitmapFactory.decodeResource(getResources(), FriendInf.head[position]));
+                    usin.put("username","用户名: "+usename);
+                    usin.put("add",add);
+                    usin.put("stat",sta);
+                    Log.e("usema",usename);
+                    FriendInf.addtomarkfri(usename,usin);
+                    LatLng point1 = new LatLng(GPS.la+position/10, GPS.lo+position);
+                    GPS.option = new MarkerOptions()
+                        .position(point1)
+                        .icon(bitmap).title(usename);
+                //在地图上添加Marker，并显示
+                    GPS.baiduMap.addOverlay(GPS.option);
+                Intent tomai=new Intent(getContext(), com.example.wang.gps.MainActivity.class);
+                startActivity(tomai);
 
+                //GPS.lll = new LatLng(GPS.la, GPS.lo);
+                //GPS.u = MapStatusUpdateFactory.newLatLng(point);
+                //GPS.baiduMap.animateMapStatus(GPS.u);
+                //GPS.mLocationClient.requestLocation();
             }
         });
     }

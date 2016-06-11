@@ -18,7 +18,7 @@ public class JSONUtile {
     public static JSONObject getjson(){
         try {
              jsonObject=new JSONObject();
-            jsonObject.put("username",GPS.username);
+           // jsonObject.put("username",GPS.username);
             jsonObject.put("time",GPS.time);
             jsonObject.put("locatidis",GPS.ad);
             jsonObject.put("lati",GPS.la);

@@ -49,7 +49,7 @@ public class login extends Activity {
                             switch(Integer.parseInt(sendlocation.response)){
                                 case 0:{//dengl
                                     Log.e("登录", "ok");
-                                    GPS.username=username.getText().toString();
+                                    Userinfo.username=username.getText().toString();
                                     Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
                                     startActivity(toMain);
                                     finish();

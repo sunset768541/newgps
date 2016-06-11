@@ -8,8 +8,12 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.baidu.location.BDLocationListener;
+import com.baidu.location.LocationClient;
 import com.baidu.mapapi.map.BaiduMap;
+import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -34,9 +38,14 @@ public class GPS {
     public static boolean isFirstLocation=true;
     public static String ad;
     public static boolean showme=false;
-    public static String username=null;
+   public static MapView mMapView;
+   public static LatLng lll;
+    public static MapStatusUpdate u;
     public static String time;
     public static Date dd;
+    public static LocationClient mLocationClient = null;
+    public  static  BDLocationListener myListener = new MyLocationListener();
+    public static OverlayOptions option;
    // public static String
    // public static OverlayOptions overlayOptions;
     public static void getLocation(){

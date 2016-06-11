@@ -1,6 +1,10 @@
 package com.example.wang.gps;
 
 import android.content.Context;
+import android.widget.ArrayAdapter;
+
+import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/10.
@@ -18,5 +22,19 @@ public class FriendInf {
     public static void  getCo(Context context){
 
         cc=context;
+    }
+    public static ArrayList<String> markerfri=new ArrayList<>();
+    public static HashMap<String,Object>firinf=new HashMap<>();
+    public static void  addtomarkfri(String arg,HashMap<String,Object> inf){
+        if (!markerfri.contains(arg)){
+        markerfri.add(arg);
+        firinf.put(arg,inf);
+        }
+    }
+    public static void removefromfri(String arg){
+        if (markerfri.contains(arg)){
+        markerfri.remove(arg);
+        firinf.remove(arg);
+        }
     }
 }

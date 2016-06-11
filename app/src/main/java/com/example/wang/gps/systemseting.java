@@ -24,8 +24,6 @@ public class systemseting extends Activity {
     public int IMAGE_SELECT = 0;
     public int CROP = 1;
     Context cc;
-    Uri imageUri = Uri.parse("file:///external/images/media/172573");
-
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
@@ -45,7 +43,28 @@ public class systemseting extends Activity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         if (requestCode == IMAGE_SELECT) {
-            Uri uri = data.getData();
+            try {
+                Uri uri = data.getData();
+                Intent intent = new Intent("com.android.camera.action.CROP");
+                intent.setDataAndType(uri, "image/*");
+                intent.putExtra("crop", "true");//可裁剪
+                intent.putExtra("aspectX", 1);
+                intent.putExtra("aspectY", 1);
+                intent.putExtra("outputX", 300);
+                intent.putExtra("outputY", 300);
+                intent.putExtra("scale", true);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
+                intent.putExtra("return-data", true);//若为false则表示不返回数据
+                intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
+                intent.putExtra("noFaceDetection", true);
+                //setResult(3);
+                startActivityForResult(intent, CROP);
+
+            }
+            catch (NullPointerException e){
+                setResult(9);
+
+            }
 
             //   Log.e("url",uri.getEncodedPath());
 //            Cursor cursor = this.getContentResolver().query(uri, null, null, null, null);
@@ -54,19 +73,7 @@ public class systemseting extends Activity {
 //            {// 取得图片uri的列名和此列的详细信息
 //                Log.e("图片路径",i + "-" + cursor.getColumnName(i) + "-" + cursor.getString(i));
 //            }
-            Intent intent = new Intent("com.android.camera.action.CROP");
-            intent.setDataAndType(uri, "image/*");
-            intent.putExtra("crop", "true");//可裁剪
-            intent.putExtra("aspectX", 1);
-            intent.putExtra("aspectY", 1);
-            intent.putExtra("outputX", 300);
-            intent.putExtra("outputY", 300);
-            intent.putExtra("scale", true);
-            intent.putExtra(MediaStore.EXTRA_OUTPUT, uri);
-            intent.putExtra("return-data", true);//若为false则表示不返回数据
-            intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
-            intent.putExtra("noFaceDetection", true);
-            startActivityForResult(intent, CROP);
+
         } else if (resultCode == RESULT_OK) {
             try {
                 //Log.e("图片", "剪切");
@@ -74,9 +81,13 @@ public class systemseting extends Activity {
                 // String ss= JSONUtile.imgToBase64(bitmap);
                 //  Log.e("base",ss);
                 hed.setImageBitmap(bitmap);
+                Userinfo.userhead=bitmap;
             } catch (Exception e) {
                 Log.e("eeee", Log.getStackTraceString(e));
             }
+        }
+        else if (resultCode==9){
+            return;
         }
     }
 }
