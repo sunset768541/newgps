@@ -3,12 +3,15 @@ package com.example.wang.gps;
 import android.content.Context;
 import android.os.Looper;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import org.apache.http.params.HttpParams;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.DataOutputStream;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -44,7 +47,7 @@ public class sendlocation {
             // ?method=save&title=435435435&timelength=89&
             for (Map.Entry<String, String> entry : params.entrySet()) {
                 sb.append(entry.getKey()).append('=')
-                        .append(URLEncoder.encode(entry.getValue(), "UTF-8")).append('&');
+                        .append(URLEncoder.encode(entry.getValue(), "UTF-8")).append('&');//URLEncoder.encode(内容, 字符编码)
             }
             sb.deleteCharAt(sb.length() - 1);
 
@@ -85,5 +88,65 @@ public class sendlocation {
 
         return ppp;
     }
+
+    public static void sendPostRequest(Map<String, String> params) {//post方式传递数据
+        try {
+            URL url = new URL(urlPath);
+            StringBuilder sb = new StringBuilder();
+            //sb.append('?');
+            // ?method=save&title=435435435&timelength=89&
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                sb.append(entry.getKey()).append('=')
+                        .append(URLEncoder.encode(entry.getValue(), "UTF-8")).append('&');//URLEncoder.encode(内容, 字符编码)
+            }
+             sb.deleteCharAt(sb.length() - 1);
+            //1.得到HttpURLConnection实例化对象
+            conn = (HttpURLConnection) url.openConnection();
+            //2.设置请求方式
+            conn.setRequestMethod("POST");
+            //3.设置post提交内容的类型和长度
+		/*
+		 * 只有设置contentType为application/x-www-form-urlencoded，
+		 * servlet就可以直接使用request.getParameter("username");直接得到所需要信息
+		 */
+            conn.setRequestProperty("contentType","application/x-www-form-urlencoded");
+            conn.setRequestProperty("Content-Length", String.valueOf(sb.toString().getBytes().length));
+            //默认为false
+            conn.setDoOutput(true);
+            //4.向服务器写入数据
+            conn.getOutputStream().write(sb.toString().getBytes());
+            //5.得到服务器相应
+            if (conn.getResponseCode() == 200) {
+                System.out.println("服务器已经收到表单数据！");
+            } else {
+                System.out.println("请求失败！");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            //6.释放资源
+            if (conn != null) {
+                //关闭连接 即设置 http.keepAlive = false;
+                conn.disconnect();
+            }
+        }
+    }
+//    public static String snn(Map<String,String> pa){//测试post产生表单
+//        StringBuilder sb = new StringBuilder();
+//        try {
+//            //sb.append('?');
+//            // ?method=save&title=435435435&timelength=89&
+//            for (Map.Entry<String, String> entry : pa.entrySet()) {
+//                sb.append(entry.getKey()).append('=')
+//                        .append(URLEncoder.encode(entry.getValue(), "UTF-8")).append('&');//URLEncoder.encode(内容, 字符编码)
+//            }
+//            sb.deleteCharAt(sb.length() - 1);
+//        }
+//        catch (Exception e){
+//
+//        }
+//
+//        return sb.toString();
+//    }
 
 }
