@@ -15,6 +15,7 @@ import com.baidu.mapapi.map.MapStatusUpdate;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
 import com.baidu.mapapi.map.MapView;
 import com.baidu.mapapi.map.OverlayOptions;
+import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.model.LatLng;
 
@@ -30,14 +31,15 @@ public class GPS {
     public static LocationManager locationManager;
     public static LocationListener locationListener;
     //public static List<LatLng> pts;
-    public static boolean drawthepath =false;
+    public static boolean startupdatalocation=true;//控制更新Usermarker position的线程 true可以开始线程
+    public static boolean drawthepath =false;//控制绘制路径的线程的运行
     public static BaiduMap baiduMap;
-    public static boolean showfootprint=false;
+    public static boolean showfootprint=false;//控制显示足迹的线程的运行
     public static double lo;
     public static double la;
     public static boolean isFirstLocation=true;
     public static String ad;
-    public static boolean showme=false;
+    public static boolean onoffline=false;
    public static MapView mMapView;
    public static LatLng lll;
     public static MapStatusUpdate u;

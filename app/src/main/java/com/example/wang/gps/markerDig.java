@@ -13,6 +13,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.baidu.mapapi.map.Marker;
+
 import java.util.HashMap;
 
 /**
@@ -32,11 +34,14 @@ public class markerDig extends Dialog {
     Button trace;
     Button removemark;
     HashMap<String,Object> parm;
-    public markerDig(Context context,String name,HashMap<String,Object> parm) {
+    String arg;
+    friendtrace ft;
+    public markerDig(Context context,String name,HashMap<String,Object> parm,String arg) {//点击marker显示一个diglog的构造器,name为这个diglog的标题，parm是根据不同的marker传入的数据
         super(context);
         this.name = name;
         mycontext=context;
         this.parm=parm;
+        this.arg=arg;
        sendlocation.getContext(mycontext);
     }
 
@@ -57,15 +62,28 @@ public class markerDig extends Dialog {
         stat.setText((String) parm.get("stat"));
         trace.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                Toast.makeText(mycontext,"点击了显示轨迹",Toast.LENGTH_SHORT).show();
+            public void onClick(View v) {//新建一个线程去更新这个marker的坐标
+                ft=new friendtrace(arg,(Marker)parm.get("marker"));
+                FriendInf.markthred.put(arg,ft);//将这个线程的名字存入Hashmap中,在关闭时可以拿到这个线程的地址
+                ft.start();
+                markerDig.this.dismiss();
+                Toast.makeText(mycontext,"执行追踪",Toast.LENGTH_SHORT).show();
             }
         });
         removemark.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(mycontext,"点击了移除marker",Toast.LENGTH_SHORT).show();
-
+                try {
+                    friendtrace ff=(friendtrace)FriendInf.markthred.get(arg);//在marker移除的时候关闭更新marker位置的线程
+                    ff.isrun=false;
+                }
+                catch (NullPointerException e){
+                }
+                Marker marker=(Marker)parm.get("marker");//移除marker按钮的监听函数
+                marker.remove();//移除marker
+                markerDig.this.dismiss();//diglog消失
+                FriendInf.removefromfri(arg);//在FriendInf中删除marker列表中的朋友信息
+                Toast.makeText(mycontext,"移除marker",Toast.LENGTH_SHORT).show();
             }
         });
 

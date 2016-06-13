@@ -44,7 +44,7 @@ public class login extends Activity {
                         @Override
                         public void run() {
 
-                            sendlocation.sendGetRequest(userlogin);
+                            sendlocation.sendPostRequest(userlogin);
 
                             switch(Integer.parseInt(sendlocation.response)){
                                 case 0:{//dengl

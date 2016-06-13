@@ -25,7 +25,7 @@ import java.util.Map;
  * Created by wang on 2016/6/4.
  */
 public class sendlocation {
-    static final String urlPath = "http://192.168.191.2:8080/androidask/aa";
+    static final String urlPath = "http://192.168.191.4:8080/androidask/aa";//使用内网用8080端口，80端口为外网
     static URL url;
     static boolean ppp;
     static HttpURLConnection conn;
@@ -81,7 +81,7 @@ public class sendlocation {
             }
         } catch (Exception e) {
             Looper.prepare();
-            Toast.makeText(mycontex, "连接服务器超时", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(mycontex, "连接服务器超时", Toast.LENGTH_SHORT).show();
             Looper.loop();
             Log.e("网络连接异常", Log.getStackTraceString(e));
         }
@@ -116,6 +116,14 @@ public class sendlocation {
             //4.向服务器写入数据
             conn.getOutputStream().write(sb.toString().getBytes());
             //5.得到服务器相应
+            BufferedReader reader = new BufferedReader(new InputStreamReader(conn.getInputStream(), "UTF-8"));
+            String line = null;
+//            while ((line = reader.readLine()) != null) {
+//                Log.e("f服务器",line);
+//            }
+//            Log.e("服务器响应",br.readLine()+"ll");
+            response = reader.readLine();
+            Log.e("post","利用post方式");
             if (conn.getResponseCode() == 200) {
                 System.out.println("服务器已经收到表单数据！");
             } else {

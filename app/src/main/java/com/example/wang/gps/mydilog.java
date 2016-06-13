@@ -56,7 +56,7 @@ public class mydilog extends Dialog {
                             @Override
                             public void run() {
 
-                                sendlocation.sendGetRequest(getuser);
+                                sendlocation.sendPostRequest(getuser);
 
                                 Log.e("recode",sendlocation.response);
                                 switch(Integer.parseInt(sendlocation.response)){

@@ -89,7 +89,7 @@ public class MyLocationListener implements BDLocationListener {
         }
        // GPS.lo=location.getLongitude();
         //GPS.la=location.getLatitude();
-        Log.e("gps卫星数",Integer.valueOf(location.getSatelliteNumber()).toString());
+      //  Log.e("gps卫星数",Integer.valueOf(location.getSatelliteNumber()).toString());
         Log.i("BaiduLocationApiDem", sb.toString());
 
     }

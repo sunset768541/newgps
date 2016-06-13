@@ -39,6 +39,7 @@ public class systemseting extends Activity {
 
             }
         });
+        hed.setImageBitmap(Userinfo.userhead);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {

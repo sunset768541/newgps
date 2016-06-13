@@ -19,6 +19,7 @@ import android.widget.SimpleAdapter;
 import com.baidu.mapapi.map.BitmapDescriptor;
 import com.baidu.mapapi.map.BitmapDescriptorFactory;
 import com.baidu.mapapi.map.MapStatusUpdateFactory;
+import com.baidu.mapapi.map.Marker;
 import com.baidu.mapapi.map.MarkerOptions;
 import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.model.LatLng;
@@ -52,7 +53,7 @@ public class allfriends extends Fragment{
         super.onCreate(savedInstanceState);
         android.util.Log.d("mark", "onCreate()--------->news Fragment");
         List<Map<String,Object>> listItems=new ArrayList<Map<String,Object>>();
-        for (int i=0;i<FriendInf.allfirname.length;i++){
+        for (int i=0;i<FriendInf.allfirname.length;i++){//在fragment创建的时候将朋友信息添加到Listview作为simpleAdapetr的数据
             Map<String,Object> listItem=new HashMap<String, Object>();
             listItem.put("header",FriendInf.head[i]);
             listItem.put("friname",FriendInf.allfirname[i]);
@@ -86,22 +87,26 @@ public class allfriends extends Fragment{
                     usin.put("userhead",BitmapFactory.decodeResource(getResources(), FriendInf.head[position]));
                     usin.put("username","用户名: "+usename);
                     usin.put("add",add);
-                    usin.put("stat",sta);
-                    Log.e("usema",usename);
-                    FriendInf.addtomarkfri(usename,usin);
+                    usin.put("stat", sta);
+                    Log.e("usema", usename);
                     LatLng point1 = new LatLng(GPS.la+position/10, GPS.lo+position);
-                    GPS.option = new MarkerOptions()
-                        .position(point1)
-                        .icon(bitmap).title(usename);
+//                    GPS.option = new MarkerOptions()
+//                        .position(point1)
+//                        .icon(bitmap).title(usename);
                 //在地图上添加Marker，并显示
-                    GPS.baiduMap.addOverlay(GPS.option);
+                if (!FriendInf.markerfri.contains(usename)) {
+                    OverlayOptions uname = new MarkerOptions().position(point1).icon(bitmap).title(usename);
+                    //  GPS.baiduMap.addOverlay(GPS.option);
+                    Marker uname1 = (Marker) GPS.baiduMap.addOverlay(uname);
+                    //uname1.setPosition();//
+
+                usin.put("marker",uname1);}
+                FriendInf.addtomarkfri(usename, usin);//
+                GPS.u = MapStatusUpdateFactory.newLatLng(point1);
+                GPS.baiduMap.animateMapStatus(GPS.u);
+                GPS.mLocationClient.requestLocation();//重新设置中心位置
                 Intent tomai=new Intent(getContext(), com.example.wang.gps.MainActivity.class);
                 startActivity(tomai);
-
-                //GPS.lll = new LatLng(GPS.la, GPS.lo);
-                //GPS.u = MapStatusUpdateFactory.newLatLng(point);
-                //GPS.baiduMap.animateMapStatus(GPS.u);
-                //GPS.mLocationClient.requestLocation();
             }
         });
     }

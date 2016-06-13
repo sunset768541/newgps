@@ -17,13 +17,7 @@ import android.view.ViewConfiguration;
 import android.view.Window;
 
 import com.astuetz.PagerSlidingTabStrip;
-/**
- * 高仿微信的主界面
- * 
- * http://blog.csdn.net/guolin_blog/article/details/26365683
- * 
- * @author guolin
- */
+
 public class Frie extends FragmentActivity {
 
 	/**
@@ -83,9 +77,6 @@ public class Frie extends FragmentActivity {
 				TypedValue.COMPLEX_UNIT_SP, 16, dm));
 		// 设置Tab Indicator的颜色
 		tabs.setIndicatorColor(Color.parseColor("#4484fd"));
-		// 设置选中Tab文字的颜色 (这是我自定义的一个方法)
-		//tabs.setSelectedTextColor(Color.parseColor("#45c01a"));
-		// 取消点击Tab时的背景色
 		//tabs.setDividerPadding(10);
 		//tabs.setTextSize(20);
 		//tabs.setTabPaddingLeftRight(30);

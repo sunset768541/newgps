@@ -57,7 +57,7 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="显示轨迹"
+            android:text="动态跟踪"
             android:id="@+id/button11"
             android:paddingTop="5dp"
             android:paddingBottom="5dp"
