@@ -25,6 +25,7 @@ import java.util.List;
 
 /**
  * Created by sunset on 16/6/1.
+ * GPS信息，baidu地图管理模块
  */
 public class GPS {
     public static Location location1;

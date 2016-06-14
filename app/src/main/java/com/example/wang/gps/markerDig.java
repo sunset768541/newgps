@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/11.
+ * 带图上的marker标记管理模块
  */
 public class markerDig extends Dialog {
     public interface OnCustomDialogListener{

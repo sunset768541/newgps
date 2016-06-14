@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * Created by sunset on 16/6/2.
+ * 获取定位信息的模块，定时更新定位信息
  */
 public class MyLocationListener implements BDLocationListener {
     @Override

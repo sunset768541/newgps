@@ -33,6 +33,7 @@ import java.util.Objects;
 
 /**
  * Created by sunset on 16/5/29.
+ * 所有朋友fragment
  */
 public class allfriends extends Fragment{
     private View view;

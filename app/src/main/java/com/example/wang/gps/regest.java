@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/14.
+ * 用户注册模块
  */
 public class regest extends Activity{ EditText usernam;
     EditText password1;

@@ -10,6 +10,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/10.
+ * 用户好友信息管理模块
  */
 public class FriendInf {
     public static String [] allfirname=new String[]{"王璞","王姐","胡可","彭泽","余力","富安","梁思","维金斯"};

@@ -18,6 +18,9 @@ import android.view.Window;
 
 import com.astuetz.PagerSlidingTabStrip;
 
+/**
+ * 好友显示界面控制代码块
+ */
 public class Frie extends FragmentActivity {
 
 	/**

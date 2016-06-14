@@ -8,7 +8,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /**
+ *
  * Created by sunset on 16/5/29.
+ * 离线好友管理界面
  */
 public class outlinefriends extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

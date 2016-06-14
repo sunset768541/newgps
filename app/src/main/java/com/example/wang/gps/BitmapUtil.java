@@ -17,6 +17,7 @@ import android.graphics.RectF;
 
 /**
  * Created by sunset on 16/6/11.
+ * 用户头像处理代码
  */
 public class BitmapUtil{
     public int IMAGE_SELECT = 0;

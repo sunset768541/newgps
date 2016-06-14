@@ -12,6 +12,7 @@ import java.io.IOException;
 
 /**
  * Created by wang on 2016/6/4.
+ * JSON工具类，用于处理服务器发送过来的json数据
  */
 public class JSONUtile {
    public static JSONObject jsonObject;

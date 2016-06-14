@@ -16,6 +16,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/10.
+ * 添加好友功能代码块
  */
 public class addfrienddig extends Dialog {
     public interface OnCustomDialogListener{

@@ -19,6 +19,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/8.
+ * 系统设置界面管理模块
  */
 public class systemseting extends Activity {
     public ImageView hed;

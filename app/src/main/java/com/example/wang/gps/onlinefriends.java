@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 /**
  * Created by sunset on 16/5/29.
+ * 在线好友管理界面
  */
 public class onlinefriends extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {

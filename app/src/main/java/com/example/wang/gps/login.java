@@ -18,6 +18,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/8.
+ * 用户登录模块
  */
 public class login extends Activity {
     public EditText username;

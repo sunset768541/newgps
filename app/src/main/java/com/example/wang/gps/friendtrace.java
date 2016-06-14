@@ -9,6 +9,7 @@ import java.util.NavigableMap;
 
 /**
  * Created by sunset on 16/6/12.
+ * 好友位置更新线程
  */
 public class friendtrace extends Thread {
     public boolean isrun=true;

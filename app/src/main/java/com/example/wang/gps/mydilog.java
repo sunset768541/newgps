@@ -22,7 +22,7 @@ import java.util.HashMap;
 /**
  * Created by sunset on 16/6/8.
  */
-public class mydilog extends Dialog {
+public class mydilog extends Dialog {//用户注册diglog
     public interface OnCustomDialogListener{
         public void back(String name);
     }

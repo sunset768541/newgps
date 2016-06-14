@@ -57,6 +57,10 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * 主模块，地图显示Activity
+ */
+
 public class MainActivity extends Activity {
     private TextView x;
     private TextView y;

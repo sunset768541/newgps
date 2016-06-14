@@ -10,6 +10,7 @@ import com.baidu.mapapi.map.Polyline;
 
 /**
  * Created by sunset on 16/6/11.
+ * 本机用户信息管理模块
  */
 public class Userinfo {
     public static String username="def";

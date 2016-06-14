@@ -9,6 +9,9 @@ import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.SubMenu;
 import android.view.View;
 
+/**
+ * acticonbar的监听控制模块
+ */
 public class PlusActionProvider extends ActionProvider {
 
 	private Context context;

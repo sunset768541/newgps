@@ -12,6 +12,7 @@ import java.util.HashMap;
 
 /**
  * Created by sunset on 16/6/13.
+ * 定时访问网路以保证定位持续功能模块
  */
 public class internetreuqest extends Service{
     @Nullable
