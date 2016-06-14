@@ -1,14 +1,20 @@
 package com.example.wang.gps;
 
 import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Looper;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import java.util.HashMap;
@@ -26,6 +32,7 @@ public class mydilog extends Dialog {
     EditText usernam;
     EditText password1;
     EditText password2;
+    ImageView regestheader;
     HashMap<String,String> getuser=new HashMap<String, String>();
     public mydilog(Context context,String name,OnCustomDialogListener customDialogListener) {
         super(context);
@@ -44,6 +51,14 @@ public class mydilog extends Dialog {
         password1 = (EditText)findViewById(R.id.editText4);
         password2 = (EditText)findViewById(R.id.editText5);
         Button ensure = (Button) findViewById(R.id.button6);
+        regestheader=(ImageView)findViewById(R.id.imageView5);
+        regestheader.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+               // Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                //startActivityForResult(intent, IMAGE_SELECT);
+            }
+        });
         ensure.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -107,6 +122,7 @@ public class mydilog extends Dialog {
             mydilog.this.dismiss();
         }
     };
+
 
 
 }

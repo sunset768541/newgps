@@ -82,12 +82,15 @@ public class login extends Activity {
         regest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mydilog mm = new mydilog(login.this, "注册用户", new mydilog.OnCustomDialogListener() {
-                    public void back(String name) {
-                        Log.e("mydio", "jj");
-                    }
-                });
-                mm.show();
+//                mydilog mm = new mydilog(login.this, "注册用户", new mydilog.OnCustomDialogListener() {
+//                    public void back(String name) {
+//                        Log.e("mydio", "jj");
+//                    }
+//                });
+//                mm.show();
+//            }
+                Intent gotoregest=new Intent(getApplication(), com.example.wang.gps.regest.class);
+                startActivity(gotoregest);
             }
         });
 

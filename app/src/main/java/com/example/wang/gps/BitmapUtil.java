@@ -1,5 +1,7 @@
 package com.example.wang.gps;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -16,7 +18,9 @@ import android.graphics.RectF;
 /**
  * Created by sunset on 16/6/11.
  */
-public class BitmapUtil {
+public class BitmapUtil{
+    public int IMAGE_SELECT = 0;
+    public int CROP = 1;
     public static Bitmap getRoundedCornerBitmap(Bitmap bitmap) {//获取圆形图片
 
         Bitmap output = Bitmap.createBitmap(bitmap.getWidth(), bitmap.getHeight(), Bitmap.Config.ARGB_8888);
@@ -107,5 +111,6 @@ public class BitmapUtil {
         c.drawBitmap(old, 0, 0, paint);
         return old;
     }
+
 
 }

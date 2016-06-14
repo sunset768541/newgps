@@ -392,8 +392,6 @@ public class MainActivity extends Activity {
             p.remove();//线程关闭这个PolyLine删除
             GPS.startupdatalocation=true;//定位设置的marker可以移动
             new Thread(new updatamarkerlocation()).start();//启动线程更新usermarker的位置
-
-
         }
     }
     public class  updatamarkerlocation implements Runnable{
@@ -402,7 +400,7 @@ public class MainActivity extends Activity {
           while (GPS.startupdatalocation){
 
           markerlocation=new LatLng(GPS.la,GPS.lo);
-          Userinfo.usermarke.setPosition(GPS.lll);//更新usermarker的位置
+          Userinfo.usermarke.setPosition(markerlocation);//更新usermarker的位置
               try {
                   Thread.sleep(2000);
                   Log.e("更新usrmarker的位置","ok");

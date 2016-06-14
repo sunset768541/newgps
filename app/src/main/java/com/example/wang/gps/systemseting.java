@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.HashMap;
 
@@ -24,22 +25,29 @@ public class systemseting extends Activity {
     public int IMAGE_SELECT = 0;
     public int CROP = 1;
     Context cc;
+    TextView uname;
+    TextView add;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
         cc = this.getApplicationContext();
         setContentView(R.layout.seting);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.setingtitle);//自定义布局赋
+        uname=(TextView)findViewById(R.id.textView4);
+        add=(TextView)findViewById(R.id.textView5);
         hed = (ImageView) findViewById(R.id.imageView2);
         hed.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(Intent.ACTION_PICK, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(intent, IMAGE_SELECT);
 
             }
         });
         hed.setImageBitmap(Userinfo.userhead);
+        uname.setText("用户名: " + Userinfo.username);
+        add.setText("当前位置: " + GPS.ad);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
