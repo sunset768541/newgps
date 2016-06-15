@@ -17,7 +17,7 @@ public class Userinfo {
     public static Marker usermarke;
     public static Marker mymarker;
     public static Polyline myPoloyline;
-
+    public static boolean isonline=false;
     static Resources res;
     public static Bitmap userhead;
     //public static Bitmap userhead1=

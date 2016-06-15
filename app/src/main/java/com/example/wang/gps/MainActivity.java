@@ -51,6 +51,8 @@ import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.map.Stroke;
 import com.baidu.mapapi.model.LatLng;
 
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -111,10 +113,10 @@ public class MainActivity extends Activity {
             @Override
             public void onClick(View v) {
                 if (onoffline.isChecked()) {
-                    GPS.onoffline = true;
-                    new OnLine().start();
+                    Userinfo.isonline = true;
+                    new requestData().start();
                 } else {
-                    GPS.onoffline = false;
+                    Userinfo.isonline = false;
                 }
             }
         });
@@ -248,6 +250,7 @@ public class MainActivity extends Activity {
         iniloca();
         Intent intent=new Intent(MainActivity.this, internetreuqest.class);
         startService(intent);
+        JSONUtile.getjson(sendlocation.jso, Userinfo.username);//在创建这个activity的时候对login获得的json数据进行解析
         //shof=new ShowFootprint();
     }
     public void setactionbartitle(String title){

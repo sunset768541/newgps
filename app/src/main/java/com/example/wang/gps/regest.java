@@ -67,10 +67,12 @@ public class regest extends Activity{ EditText usernam;
                                 switch(Integer.parseInt(sendlocation.response)){
                                     case 0:{//注册成功
                                         Log.e("注册", "ok");
+                                        finish();
                                         Looper.prepare();
                                         Toast.makeText(regest.this, "注册成功", Toast.LENGTH_SHORT).show();
                                         Looper.loop();
-                                        finish();
+                                        Intent gotologin=new Intent(getApplication(),login.class);
+                                        startActivity(gotologin);
 
                                     }
                                     case 1:{//用户名已存在

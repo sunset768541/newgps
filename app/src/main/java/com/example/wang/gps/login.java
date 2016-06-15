@@ -26,7 +26,7 @@ public class login extends Activity {
     public Button regest;
     public Button loginb;
     public HashMap<String, String> userlogin = new HashMap<String, String>();
-
+    TextView tt;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
@@ -34,6 +34,7 @@ public class login extends Activity {
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
         loginb = (Button) findViewById(R.id.button5);
+      //  tt=(TextView)findViewById(R.id.textView16);
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -52,7 +53,7 @@ public class login extends Activity {
                                     Log.e("登录", "ok");
                                     Userinfo.username=username.getText().toString();
                                     Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
-                                    startActivity(toMain);
+                                   startActivity(toMain);
                                     finish();
                                     Looper.prepare();
                                     Toast.makeText(login.this, "登录成功", Toast.LENGTH_SHORT).show();
@@ -71,6 +72,7 @@ public class login extends Activity {
                             }
                         }
                     }).start();
+                    //tt.setText(sendlocation.jso);
                 } catch (NullPointerException e) {
                     Log.e("登录异常", Log.getStackTraceString(e));
                     Looper.prepare();

@@ -55,18 +55,19 @@ public class addfrienddig extends Dialog {
             public void onClick(View v) {
                 try {
                     findf.put("commond", "findfriend");
-                    findf.put("regestname", friendname.getText().toString());
+                    findf.put("friendname", friendname.getText().toString());
+                    findf.put("username",Userinfo.username);
                     new Thread(new Runnable() {
                         @Override
                         public void run() {
 
-                            sendlocation.sendGetRequest(findf);
+                            sendlocation.sendPostRequest(findf);
 
                             Log.e("recode", sendlocation.response);
                             switch(Integer.parseInt(sendlocation.response)){
-                                case 0:{//注册成功
+                                case 0:{
                                     Log.e("发现朋友", "ok");
-                                  //  mydilog.this.dismiss();
+                                    addfrienddig.this.dismiss();
                                     Looper.prepare();
                                     Toast.makeText(mycontext, "添加朋友成功", Toast.LENGTH_SHORT).show();
                                     Looper.loop();

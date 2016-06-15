@@ -19,6 +19,7 @@ import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -34,7 +35,7 @@ public class sendlocation {
     public static byte[] nn;
     public static String response = "2";
     static Context mycontex;
-
+    public static String  jso;
     public static void getContext(Context context) {
         mycontex = context;
     }
@@ -123,8 +124,13 @@ public class sendlocation {
 //                Log.e("f服务器",line);
 //            }
 //            Log.e("服务器响应",br.readLine()+"ll");
-            response = reader.readLine();
-            Log.e("post","利用post方式");
+            String ll = reader.readLine();
+
+            Log.e("post1", ll);
+            jso=ll;
+            JSONUtile.getdatafromjson(ll,params.get("username"));
+           // Userinfo.userhead=JSONUtile.base64ToBitmap((String)LL.get(params.get("username")));
+          // Log.e("post", aa);
             if (conn.getResponseCode() == 200) {
                 System.out.println("服务器已经收到表单数据！");
             } else {
