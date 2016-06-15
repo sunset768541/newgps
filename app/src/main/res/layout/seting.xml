@@ -2,7 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#ffffff">
+    android:background="#f2f1f9">
 
     <LinearLayout
         android:orientation="horizontal"
@@ -10,7 +10,11 @@
         android:layout_height="wrap_content"
         android:paddingLeft="10dp"
         android:paddingTop="10dp"
-        android:clickable="false">
+        android:clickable="false"
+        android:background="#fefefe"
+        android:layout_margin="10dp"
+        android:paddingBottom="10dp"
+        android:padding="10dp">
 
         <ImageView
             android:layout_width="wrap_content"
@@ -20,27 +24,31 @@
             android:paddingRight="5dp"
             android:paddingTop="5dp"
             android:paddingLeft="5dp"
-            android:clickable="true" />
+            android:clickable="true"
+            android:paddingBottom="5dp" />
 
         <LinearLayout
             android:orientation="vertical"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:paddingLeft="10dp"
-            android:layout_gravity="center_horizontal">
+            android:layout_gravity="center_horizontal"
+            android:padding="10dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView4"
                 android:paddingTop="5dp"
-                android:textSize="22sp" />
+                android:textSize="20sp"
+                android:textColor="#111111" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:id="@+id/textView5"
-                android:paddingTop="5dp" />
+                android:paddingTop="5dp"
+                android:textColor="#111111" />
         </LinearLayout>
 
     </LinearLayout>
@@ -49,7 +57,8 @@
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom">
+        android:gravity="bottom"
+        android:layout_margin="10dp">
 
         <Button
             android:layout_width="match_parent"
