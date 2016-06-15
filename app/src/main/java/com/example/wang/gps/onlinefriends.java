@@ -115,9 +115,6 @@ public class onlinefriends extends Fragment {
                     }
                 }
                 BitmapDescriptor bitmap = BitmapDescriptorFactory.fromBitmap(BitmapUtil.getMarkerBitmap(JSONUtile.base64ToBitmap((String)showdata.get("friendheader"))));
-                // String add=FriendInf.addr[position];
-                //  String sta=FriendInf.sta[position];
-                ;
                 String usename = showdata.get("friendname").toString();
                 HashMap<String, Object> usin = new HashMap<String, Object>();
                 usin.put("userhead", JSONUtile.base64ToBitmap((String) showdata.get("friendheader")));
@@ -128,10 +125,9 @@ public class onlinefriends extends Fragment {
                 LatLng point1 = new LatLng(Double.parseDouble((String)showdata.get("latitude")),Double.parseDouble((String)showdata.get("longtitude")));//这个坐标从showdata中获取
                 //在地图上添加Marker，并显示
                 if (!FriendInf.markerfri.contains(usename)) {//确定在地图上是否已存在marker，不存在添加，存在跳过
-                    OverlayOptions uname = new MarkerOptions().position(point1).icon(bitmap).title(usename);
-                    //  GPS.baiduMap.addOverlay(GPS.option);
+                    OverlayOptions uname = new MarkerOptions().position(point1).icon(bitmap).title(usename);//title用力啊分辨marker
                     Marker uname1 = (Marker) GPS.baiduMap.addOverlay(uname);
-                    usin.put("marker", uname1);
+                    usin.put("marker", uname1);//
                 }
                 FriendInf.addtomarkfri(usename, usin);//
                 GPS.u = MapStatusUpdateFactory.newLatLng(point1);

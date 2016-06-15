@@ -114,10 +114,17 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 if (onoffline.isChecked()) {
                     Userinfo.isonline = true;
+                    //通知服务器用户上线
+                    //tellserviceonling.put("userstate","1");
                     new requestData().start();
                 } else {
                     Userinfo.isonline = false;
+                    //通知服务器用户离线
+                   // tellserviceonling.put("userstate","0");
+
                 }
+
+                Log.e("发送用户状态变更请求","ok");
             }
         });
         friend = (Button) findViewById(R.id.button2);
@@ -149,13 +156,10 @@ public class MainActivity extends Activity {
             @Override
             public boolean onMarkerClick(Marker arg0) {
                 // TODO Auto-generated method stub
-                String value = arg0.getTitle();
-//                switch (value){
-//                    case
-//                }
-                for (int i = 0; i < FriendInf.markerfri.size(); i++) {
+                String value = arg0.getTitle();//获得点击marker的title，title也就是用户的名称
+                for (int i = 0; i < FriendInf.markerfri.size(); i++) {//遍markerfri确定在容器中找到点击的marker
                     if (value.equals(FriendInf.markerfri.get(i))) {//判断朋友朋友变量的marker列表中是否含有所点击的marker的名字
-                        markerDig mm = new markerDig(MainActivity.this, "用户信息", (HashMap) FriendInf.firinf.get(value),value);//如果找到匹配的marker，就将这个marker的数据传入diglog
+                        markerDig mm = new markerDig(MainActivity.this, "好友信息", (HashMap) FriendInf.firinf.get(value),value);//如果找到匹配的marker，就将这个marker的数据传入diglog
                         mm.show();
                     }
                 }
@@ -165,8 +169,8 @@ public class MainActivity extends Activity {
                     usin.put("username","用户名: "+Userinfo.username);
                     usin.put("add","地址: 广州市番禹区      ");
                     usin.put("stat","状态: 移动中");
-                    markerDig mm = new markerDig(MainActivity.this, "用户信息",usin,value);
-                    mm.show();
+                     userinfmarkerdiglog markerDig= new userinfmarkerdiglog(MainActivity.this, "我的信息",usin,value);
+                    markerDig.show();
 //                Toast.makeText(getApplicationContext(), "Marker被点击了！", Toast.LENGTH_SHORT).show();
                }
 //                else

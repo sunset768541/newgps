@@ -12,6 +12,11 @@ import java.util.List;
 public class requestData extends Thread {
     public void run(){
         //发送一条上线信息
+        HashMap<String,String> tellserviceonling=new HashMap();
+        tellserviceonling.put("commond", "informuserstate");
+        tellserviceonling.put("username",Userinfo.username);
+        tellserviceonling.put("userstate","1");
+        sendlocation.sendPostRequest(tellserviceonling);
         while (Userinfo.isonline){
         try {
             HashMap <String,String>sendinfo=new HashMap<String,String>();
@@ -32,7 +37,8 @@ public class requestData extends Thread {
             Log.e("动态更新数据",Log.getStackTraceString(e));
         }
         }
-
+        tellserviceonling.put("userstate","0");
+        sendlocation.sendPostRequest(tellserviceonling);
         //发送一条下线信息
     }
 }

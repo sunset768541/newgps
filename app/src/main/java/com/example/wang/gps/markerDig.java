@@ -35,7 +35,7 @@ public class markerDig extends Dialog {
     Button trace;
     Button removemark;
     HashMap<String,Object> parm;
-    String arg;
+    String arg;//为用户的名字
     friendtrace ft;
     public markerDig(Context context,String name,HashMap<String,Object> parm,String arg) {//点击marker显示一个diglog的构造器,name为这个diglog的标题，parm是根据不同的marker传入的数据
         super(context);
