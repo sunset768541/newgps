@@ -25,11 +25,14 @@ public class login extends Activity {
     public EditText password;
     public Button regest;
     public Button loginb;
+    public Button offlineuse;
     public HashMap<String, String> userlogin = new HashMap<String, String>();
     TextView tt;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.login);
+        SysApplication.getInstance().addActivity(this);
+        if (!Userinfo.isLogin){
         sendlocation.getContext(this);
         username = (EditText) findViewById(R.id.editText);
         password = (EditText) findViewById(R.id.editText2);
@@ -38,6 +41,7 @@ public class login extends Activity {
         loginb.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 try {
                     userlogin.put("commond", "login");
                     userlogin.put("username", username.getText().toString());
@@ -53,7 +57,7 @@ public class login extends Activity {
                                     Log.e("登录", "ok");
                                     Userinfo.username=username.getText().toString();
                                     Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
-                                   startActivity(toMain);
+                                    startActivity(toMain);
                                     finish();
                                     Looper.prepare();
                                     Toast.makeText(login.this, "登录成功", Toast.LENGTH_SHORT).show();
@@ -79,8 +83,9 @@ public class login extends Activity {
                     Toast.makeText(login.this, "用户名或密码不能为空", Toast.LENGTH_SHORT).show();
                     Looper.loop();
                 }
-            }
-        });
+
+
+        }});
         regest = (Button) findViewById(R.id.button4);
         regest.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -96,6 +101,20 @@ public class login extends Activity {
                 startActivity(gotoregest);
             }
         });
-
+            offlineuse=(Button)findViewById(R.id.button13);
+            offlineuse.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
+                    startActivity(toMain);
+                    finish();
+                }
+            });
+        }
+        else {
+            Intent toMain = new Intent(getApplication(), com.example.wang.gps.MainActivity.class);
+            startActivity(toMain);
+            finish();
+        }
     }
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -32,6 +33,8 @@ public class userinfmarkerdiglog extends Dialog {
         Button removemark;
         HashMap<String,Object> parm;
         String arg;//为用户的名字
+         TextView latitude;
+         TextView longtitude;
         friendtrace ft;
         public userinfmarkerdiglog(Context context,String name,HashMap<String,Object> parm,String arg) {//点击marker显示一个diglog的构造器,name为这个diglog的标题，parm是根据不同的marker传入的数据
             super(context);
@@ -52,9 +55,14 @@ public class userinfmarkerdiglog extends Dialog {
             add = (TextView)findViewById(R.id.textView7);
             stat = (TextView)findViewById(R.id.textView14);
             usernamhead.setImageBitmap((Bitmap) parm.get("userhead"));
-            username.setText((String)parm.get("username"));
+            username.setText((String) parm.get("username"));
             add.setText((String) parm.get("add"));
             stat.setText((String) parm.get("stat"));
+            latitude=(TextView)findViewById(R.id.textView18);//纬度
+            longtitude=(TextView)findViewById(R.id.textView19);//经度
+            latitude.setText("纬度为:"+Double.valueOf(GPS.la));
+            longtitude.setText("经度为:"+Double.valueOf(GPS.lo));
+            Log.e("用户的marker","ok");
         }
     }
 

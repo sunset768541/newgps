@@ -27,7 +27,7 @@ import java.util.Map;
  * 网络服务模块，提供了get方式和post方式提交数据
  */
 public class sendlocation {
-    static final String urlPath = "http://192.168.191.4:8080/androidask/aa";//使用内网用8080端口，80端口为外网
+    static final String urlPath = "http://sunset.6655.la/android/aa";//使用内网用8080端口，80端口为外网
     static URL url;
     static boolean ppp;
     static HttpURLConnection conn;

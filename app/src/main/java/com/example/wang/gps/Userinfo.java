@@ -18,6 +18,7 @@ public class Userinfo {
     public static Marker mymarker;
     public static Polyline myPoloyline;
     public static boolean isonline=false;
+    public static boolean isLogin=false;
     static Resources res;
     public static Bitmap userhead;
     //public static Bitmap userhead1=

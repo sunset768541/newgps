@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -97,6 +98,7 @@ public class MainActivity extends Activity {
         SDKInitializer.initialize(getApplicationContext());
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
         setContentView(R.layout.activity_main);
+        SysApplication.getInstance().addActivity(this);//退出功能注册
         FriendInf.getCo(getApplicationContext());
        Userinfo.gc(getApplication());
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title);//自定义布局赋
@@ -107,7 +109,6 @@ public class MainActivity extends Activity {
     //    actionBar.setLogo(R.drawable.che);
       //  actionBar.setDisplayUseLogoEnabled(true);
         //actionBar.setDisplayShowHomeEnabled(true);
-
         onoffline = (Switch) findViewById(R.id.switch2);
         onoffline.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -140,7 +141,7 @@ public class MainActivity extends Activity {
         MapStatusUpdate mapStatusUpdate = MapStatusUpdateFactory
                 .zoomBy(3);
         GPS.baiduMap.animateMapStatus(mapStatusUpdate);
-
+       // GPS.baiduMap.setMapType();
         // map.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.textView);
@@ -167,8 +168,8 @@ public class MainActivity extends Activity {
                     HashMap<String,Object> usin=new HashMap<String, Object>();
                     usin.put("userhead",Userinfo.userhead);
                     usin.put("username","用户名: "+Userinfo.username);
-                    usin.put("add","地址: 广州市番禹区      ");
-                    usin.put("stat","状态: 移动中");
+                    usin.put("add","地址:"+GPS.ad);
+                    usin.put("stat","状态: 移动中");//获得用户的移动状态
                      userinfmarkerdiglog markerDig= new userinfmarkerdiglog(MainActivity.this, "我的信息",usin,value);
                     markerDig.show();
 //                Toast.makeText(getApplicationContext(), "Marker被点击了！", Toast.LENGTH_SHORT).show();
@@ -189,7 +190,9 @@ public class MainActivity extends Activity {
                 GPS.baiduMap.animateMapStatus(GPS.u);
                 GPS.mLocationClient.requestLocation();
              //   GPS.startupdatalocation=true;
+                drawtrace.drawpat();
                 new Thread(new updatamarkerlocation()).start();
+                new OnLine().start();
                 // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
             }
@@ -255,6 +258,8 @@ public class MainActivity extends Activity {
         Intent intent=new Intent(MainActivity.this, internetreuqest.class);
         startService(intent);
         JSONUtile.getjson(sendlocation.jso, Userinfo.username);//在创建这个activity的时候对login获得的json数据进行解析
+
+
         //shof=new ShowFootprint();
     }
     public void setactionbartitle(String title){
@@ -338,8 +343,8 @@ public class MainActivity extends Activity {
                 hh.put("longtitude", Double.valueOf(GPS.lo).toString());
                 hh.put("addr", GPS.ad);
                 try {
-                    boolean kk = sendlocation.sendGetRequest(hh);
-                    Log.e("服务器介绍", Boolean.valueOf(kk).toString());
+                  //  boolean kk = sendlocation.sendGetRequest(hh);
+                    //Log.e("服务器介绍", Boolean.valueOf(kk).toString());
                 } catch (Exception e) {
                     Log.e("kk", "按你要");
                 }
@@ -423,5 +428,8 @@ public class MainActivity extends Activity {
           }
         }
     }
+//    protected void onStart(){
+//        //voi；
+//    }
 
 }

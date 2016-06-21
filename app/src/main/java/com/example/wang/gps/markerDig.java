@@ -16,6 +16,8 @@ import android.widget.Toast;
 import com.baidu.mapapi.map.Marker;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Created by sunset on 16/6/11.
@@ -34,6 +36,7 @@ public class markerDig extends Dialog {
     TextView stat;
     Button trace;
     Button removemark;
+    Button outbound;
     HashMap<String,Object> parm;
     String arg;//为用户的名字
     friendtrace ft;
@@ -57,18 +60,30 @@ public class markerDig extends Dialog {
         stat = (TextView)findViewById(R.id.textView14);
          trace = (Button) findViewById(R.id.button11);
          removemark = (Button) findViewById(R.id.button12);
+
         usernamhead.setImageBitmap((Bitmap) parm.get("userhead"));
         username.setText((String)parm.get("username"));
         add.setText((String) parm.get("add"));
         stat.setText((String) parm.get("stat"));
+        Iterator iter = JSONUtile.allfriendobj.entrySet().iterator();
+        HashMap showdata=new HashMap();
+        while (iter.hasNext()) {
+            Map.Entry entry = (Map.Entry) iter.next();
+            Object key = entry.getKey();
+            if (((String)key).equals(arg)){
+                showdata =(HashMap) entry.getValue();
+                break;
+            }
+        }
+        stat.setText((String) showdata.get("add"));//每点击marker一下就在diglog中更新这些信息
         trace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//新建一个线程去更新这个marker的坐标
-                ft=new friendtrace(arg,(Marker)parm.get("marker"));
-                FriendInf.markthred.put(arg,ft);//将这个线程的名字存入Hashmap中,在关闭时可以拿到这个线程的地址
+                ft = new friendtrace(arg, (Marker) parm.get("marker"));
+                FriendInf.markthred.put(arg, ft);//将这个线程的名字存入Hashmap中,在关闭时可以拿到这个线程的地址
                 ft.start();
                 markerDig.this.dismiss();
-                Toast.makeText(mycontext,"执行追踪",Toast.LENGTH_SHORT).show();
+                Toast.makeText(mycontext, "执行追踪", Toast.LENGTH_SHORT).show();
             }
         });
         removemark.setOnClickListener(new View.OnClickListener() {
@@ -85,6 +100,13 @@ public class markerDig extends Dialog {
                 markerDig.this.dismiss();//diglog消失
                 FriendInf.removefromfri(arg);//在FriendInf中删除marker列表中的朋友信息
                 Toast.makeText(mycontext,"移除marker",Toast.LENGTH_SHORT).show();
+            }
+        });
+        outbound=(Button)findViewById(R.id.button14);
+        outbound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
             }
         });
 

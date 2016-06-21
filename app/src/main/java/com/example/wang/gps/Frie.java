@@ -52,6 +52,7 @@ public class Frie extends FragmentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.friendac);
+		SysApplication.getInstance().addActivity(this);
 		setOverflowShowingAlways();
 		dm = getResources().getDisplayMetrics();
 		ViewPager pager = (ViewPager) findViewById(R.id.pager);

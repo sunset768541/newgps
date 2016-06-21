@@ -12,6 +12,7 @@ import android.provider.MediaStore;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,14 +29,31 @@ public class systemseting extends Activity {
     Context cc;
     TextView uname;
     TextView add;
+    Button exitapp;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
         cc = this.getApplicationContext();
         setContentView(R.layout.seting);
+        SysApplication.getInstance().addActivity(this);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.setingtitle);//自定义布局赋
         uname=(TextView)findViewById(R.id.textView4);
         add=(TextView)findViewById(R.id.textView5);
+        exitapp=(Button)findViewById(R.id.button10);
+        exitapp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Userinfo.isonline=false;
+                HashMap<String,String> tellserviceonling=new HashMap();
+                tellserviceonling.put("commond", "informuserstate");
+                tellserviceonling.put("username",Userinfo.username);
+                tellserviceonling.put("userstate","0");
+                sendlocation.sendPostRequest(tellserviceonling);//发送下线通知
+                SysApplication.getInstance().exit();//退出程序
+                //android.os.Process.killProcess(android.os.Process.myPid());   //获取PID
+                //System.exit(0);   //常规java、c#的标准退出法，返回值为0代表正常退出
+            }
+        });
         hed = (ImageView) findViewById(R.id.imageView2);
         hed.setOnClickListener(new View.OnClickListener() {
             @Override
