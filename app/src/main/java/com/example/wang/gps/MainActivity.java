@@ -16,10 +16,12 @@ import android.graphics.drawable.Drawable;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
 import android.os.Messenger;
+import android.provider.MediaStore;
 import android.provider.Settings;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
@@ -203,7 +205,7 @@ public class MainActivity extends Activity {
                 GPS.baiduMap.animateMapStatus(GPS.u);
                 GPS.mLocationClient.requestLocation();
                 //   GPS.startupdatalocation=true;
-
+              //  send(Userinfo.username,GPS.ad);
                 new Thread(new updatamarkerlocation()).start();
                 new OnLine().start();
                 // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
@@ -451,10 +453,10 @@ public class MainActivity extends Activity {
                         // Log.e("对比第"+Integer.valueOf(i).toString(),"  为"+Boolean.valueOf(isbound).toString());
                         if (isbound) {//如果相交
                             send(Userinfo.username,GPS.ad);
-                            Log.e("前一个marker坐标", "x= " + Double.valueOf(premarkerlocation.latitude).toString() + " y=" + Double.valueOf(premarkerlocation.longitude).toString());
-                            Log.e("后一个marker坐标", "x= " + Double.valueOf(markerlocation.latitude).toString() + " y=" + Double.valueOf(markerlocation.longitude).toString());
-                            Log.e("第" + Integer.valueOf(i).toString() + "个边界坐标", "x1= " + Double.valueOf(x1).toString() + " y1=" + Double.valueOf(y1).toString());
-                            Log.e("第" + Integer.valueOf(i + 1).toString() + "个边界坐标", "x2= " + Double.valueOf(x2).toString() + " y2=" + Double.valueOf(y2).toString());
+                         //   Log.e("前一个marker坐标", "x= " + Double.valueOf(premarkerlocation.latitude).toString() + " y=" + Double.valueOf(premarkerlocation.longitude).toString());
+                           // Log.e("后一个marker坐标", "x= " + Double.valueOf(markerlocation.latitude).toString() + " y=" + Double.valueOf(markerlocation.longitude).toString());
+                            //Log.e("第" + Integer.valueOf(i).toString() + "个边界坐标", "x1= " + Double.valueOf(x1).toString() + " y1=" + Double.valueOf(y1).toString());
+                           // Log.e("第" + Integer.valueOf(i + 1).toString() + "个边界坐标", "x2= " + Double.valueOf(x2).toString() + " y2=" + Double.valueOf(y2).toString());
                         }
                     }
 
@@ -515,12 +517,21 @@ public class MainActivity extends Activity {
                 .setTicker("用户越界消息")
                 .setSmallIcon(R.drawable.che)
                 .setContentTitle(username)
-                .setContentText("越界位置: "+addr)
+                .setContentText("越界位置: " + addr)
                 .setLargeIcon(Userinfo.userhead)
                 .getNotification();
+        noti.ledARGB=0XFFFF00;
+        noti.ledOnMS=500;
+        noti.ledOffMS=500;
+        noti.flags |= Notification.FLAG_SHOW_LIGHTS;
+        noti.defaults |= Notification.DEFAULT_VIBRATE;
+        long[] vibrate = {0,100,200,300};
+        noti.vibrate = vibrate ;
+        noti.defaults |= Notification.DEFAULT_SOUND;
+        noti.sound = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "6");
         mNotificationManager.notify(0, noti);
         mNotificationManager.cancel(1);
-        Log.e("通知", "ok");
+     //   Log.e("通知", "ok");
 
     }
 

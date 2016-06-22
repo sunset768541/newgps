@@ -62,8 +62,10 @@ public class drawtrace {
                             //pts.remove(0);
                            // pts.remove(1);
                             getbound=pts;
+
                             boundwatch=true;
-                            Log.e("pts.size: ",Integer.valueOf(pts.size()).toString());
+                            Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"总长度为： "+Double.valueOf(polygonUtil.computealldistabce(pts)).toString());
+                            Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"面积为： "+Double.valueOf(polygonUtil.computearea(pts)).toString());
 
 
                     }
