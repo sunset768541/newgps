@@ -106,7 +106,7 @@ public class markerDig extends Dialog {
         outbound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                drawtrace.drawpat(true);
             }
         });
 
