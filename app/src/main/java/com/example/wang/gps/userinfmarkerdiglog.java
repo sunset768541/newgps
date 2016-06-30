@@ -68,8 +68,10 @@ public class userinfmarkerdiglog extends Dialog {
             outbound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
-                    drawtrace.drawpat(true);
+                    drawtrace.isdraw=true;
+                    drawtrace.isdrag=true;
+                  //  GPS.uiSettings.setAllGesturesEnabled(false);
+                    drawtrace.drawpat(Userinfo.username);
                     userinfmarkerdiglog.this.dismiss();
                 }
             });
@@ -78,9 +80,10 @@ public class userinfmarkerdiglog extends Dialog {
             closebound.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    drawtrace.drawpat(false);
+                  drawtrace.isdraw=false;
+
                     for (int i=0;i<drawtrace.userpolyline.size();i++){
-                        drawtrace.userpolyline.get(i).remove();//删除所有线
+                        drawtrace.userpolyline.get(Userinfo.username).remove();//删除用户的线
                     }
                     userinfmarkerdiglog.this.dismiss();
                 }

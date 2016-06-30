@@ -32,7 +32,6 @@
         </activity>
         <activity android:name=".MainActivity"
             android:theme ="@style/test"
-
             android:launchMode="singleTask" >
             <intent-filter>
                 <action android:name="android.intent.action.EDIT"/>
@@ -40,6 +39,15 @@
             </intent-filter>
         </activity>
         <activity android:name=".systemseting"
+            android:theme ="@style/test"
+            android:launchMode="singleTask"
+            >
+            <intent-filter>
+                <action android:name="android.intent.action.EDIT"/>
+                <category android:name="android.intent.category.DEFAULT"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".tools"
             android:theme ="@style/test"
             android:launchMode="singleTask"
             >

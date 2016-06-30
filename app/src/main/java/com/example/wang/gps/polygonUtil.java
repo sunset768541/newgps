@@ -27,23 +27,21 @@ public class polygonUtil {
     public static double computearea(List<LatLng> polygon){
         double area=0;
         if (!(polygon.size()<3)){
+//            for (int m=0;m<polygon.size();m++){
+//                LatLng ofLine=polygon.get(m);
+//                for (int n=0;n<polygon.size();n++){
+//                    if ()
+//                }
+//
+//
+//            }
             for (int j=2;j<polygon.size()-2;j++){
                 double a=computedistance(polygon.get(0),polygon.get(j+1));
-             // Log.e("a=",Double.valueOf(a).toString());
                 double b=computedistance(polygon.get(j+1),polygon.get(j+2));
-               // Log.e("b=",Double.valueOf(b).toString());
                 double c=computedistance(polygon.get(0),polygon.get(j+2));
-                //Log.e("c=",Double.valueOf(c).toString());
-
-                //Log.e("a2+c2-b2=", Double.valueOf((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c)).toString());
-                //Log.e("acos=",Double.valueOf(Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c))).toString());
-              //  Log.e("sin(acos)=",Double.valueOf(Math.sin(Math.acos((Math.pow(a, 2) + Math.pow(c, 2) - Math.pow(b, 2)) / (2 * a * c)))).toString());
-
-                if((b+c>a)&&(b+a>c)&&(c+a>b)){
+                if((b+c>a)&&(b+a>c)&&(c+a>b)){//两边之和大于第三遍，并排除三边共线的，三边共线会导致NaN
                 double s=0.5*(a*c*Math.sin(Math.acos((Math.pow(a,2) + Math.pow(c,2) - Math.pow(b,2))/(2*a*c))));
-               // Log.e("第"+Integer.valueOf(j).toString()+"个三角形的面积为：",Double.valueOf(s).toString());
                 area=area+s;}
-
             }
         }
        else {
@@ -52,7 +50,6 @@ public class polygonUtil {
         return area;
 
     }
-
 
 }
 

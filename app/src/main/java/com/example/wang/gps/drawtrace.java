@@ -13,11 +13,11 @@ import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
  * Created by sunset on 16/6/21.
- * Line2D.linesIntersect
  * static boolean	linesIntersect(double x1, double y1, double x2, double y2, double x3, double y3, double x4, double y4)
  * 测试从 (x1,y1) 到 (x2,y2) 的线段是否与从 (x3,y3) 到 (x4,y4) 的线段相交。
  */
@@ -25,53 +25,73 @@ public class drawtrace {
     static LatLng l=new LatLng(0,0);
     static Point pp;
     static Point prepoint;
-   static boolean boundwatch;
+    static boolean boundwatch;
     static List<LatLng> getbound=new ArrayList<>();
-    static List<Polyline> userpolyline=new ArrayList<>();
-    public static void drawpat(final boolean isdraw){
-        final UiSettings uiSettings=GPS.baiduMap.getUiSettings();//控制地图的手势
+   // static List<Polyline> userpolyline=new ArrayList<>();
+    public static HashMap<String,List<LatLng>>userbound=new HashMap<>();//外部可以访问这个获取针对某个用户的边界监听的边界
+    public static HashMap<String,Boolean> boundflag=new HashMap<>();//外部可以访问这个获取特定用户是否进行边界检测
+    public static HashMap<String,Polyline> userpolyline=new HashMap<>();//存储用户绘制的线
+    public static boolean isdraw;
+    public static boolean isdrag;
+    public static void drawpat(final String username){
+
         GPS.baiduMap.setOnMapTouchListener(new BaiduMap.OnMapTouchListener() {
              List<LatLng> pts = new ArrayList<LatLng>();
               Polyline p;
             @Override
             public void onTouch(MotionEvent motionEvent) {
+//
                 float x = motionEvent.getX();//获得触摸点的横坐标
                 float y = motionEvent.getY();//获得触摸点的纵坐标
-                if (isdraw) {
-                    switch (motionEvent.getAction()) {
-                        case MotionEvent.ACTION_DOWN://绘制线开始
-                            uiSettings.setAllGesturesEnabled(false);
-                            pts.clear();
-                            pp = new Point((int) x, (int) y);
-                            lp();//确保setOnMapLoadedCallback回调完成，可以使用projection
-                            pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));//因为创建Polyline至少需要两个点
-                            pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));//
-                            p = (Polyline) GPS.baiduMap.addOverlay(new PolylineOptions()//创建Polyline
-                                    .points(pts)
-                                    .color(0xAAFF0000));//设置线的颜色
-                            userpolyline.add(p);
-                        case MotionEvent.ACTION_MOVE://绘制线进行中
-                            prepoint=pp;
-                            pp = new Point((int) x, (int) y);
-                            if (!pp.equals(prepoint)){//移动时相同的点不会再一次加入到List中
-                            pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));
-                            }
-                            p.setPoints(pts);
-                        case MotionEvent.ACTION_UP://绘制线结束，存储绘制的line,获得这个line的LatLng List
-                            p.setPoints(pts);
-                            //pts.remove(0);
-                           // pts.remove(1);
-                            getbound=pts;
+                if (isdrag) {
+                    Log.e("拖动地图","啥也不做");
+                }else {
+                    if (isdraw) {
+                        switch (motionEvent.getAction()) {
+                            case MotionEvent.ACTION_DOWN://绘制线开始
+                                try {
+                                    userpolyline.get(username).remove();
+                                } catch (Exception e) {
+                                    Log.e("第一次绘制", "清楚无效");
+                                }
+                                pts.clear();
+                                pp = new Point((int) x, (int) y);
+                                lp();//确保setOnMapLoadedCallback回调完成，可以使用projection
+                                pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));//因为创建Polyline至少需要两个点
+                                pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));//
+                                p = (Polyline) GPS.baiduMap.addOverlay(new PolylineOptions()//创建Polyline
+                                        .points(pts)
+                                        .color(0xAAFF0000));//设置线的颜色
+                                userpolyline.put(username, p);
+                            case MotionEvent.ACTION_MOVE://绘制线进行中
+                                prepoint = pp;
+                                pp = new Point((int) x, (int) y);
+                                if (!pp.equals(prepoint)) {//移动时相同的点不会再一次加入到List中
+                                    pts.add(GPS.baiduMap.getProjection().fromScreenLocation(pp));
+                                }
+                                p.setPoints(pts);
+                                break;
+                            case MotionEvent.ACTION_UP://绘制线结束，存储绘制的line,获得这个line的LatLng List
+                                p.setPoints(pts);
+                                //pts.remove(0);
+                                // pts.remove(1);
+                                // getbound=pts;
+                                //  isdraw=false;
+                                userbound.put(username, pts);
+                                boundflag.put(username, true);
 
-                            boundwatch=true;
-                            Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"总长度为： "+Double.valueOf(polygonUtil.computealldistabce(pts)).toString());
-                            Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"面积为： "+Double.valueOf(polygonUtil.computearea(pts)).toString());
+                                //boundwatch=true;
+                                //Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"总长度为： "+Double.valueOf(polygonUtil.computealldistabce(pts)).toString());
+                                //Log.e("pts.size: ",Integer.valueOf(pts.size()).toString()+"面积为： "+Double.valueOf(polygonUtil.computearea(pts)).toString());
 
 
+                        }
                     }
+
                 }
-                else uiSettings.setAllGesturesEnabled(true);
+
             }
+
         });
 }
 

@@ -73,7 +73,7 @@
                 android:orientation="horizontal"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_margin="2dp">
+                android:id="@+id/maptype">
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -82,28 +82,8 @@
                     android:text="地图类型"
                     android:id="@+id/textView21"
                     android:textColor="#111111"
-                    android:paddingLeft="10dp"
-                    android:paddingBottom="2dp" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:orientation="horizontal"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView4"
-                    android:src="@drawable/ss"
-                    android:layout_weight="1" />
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/imageView6"
-                    android:src="@drawable/satae"
-                    android:layout_weight="1" />
+                    android:paddingBottom="2dp"
+                    android:textSize="22sp" />
             </LinearLayout>
 
         </LinearLayout>
@@ -172,7 +152,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
-            android:id="@+id/about">
+            android:id="@+id/about"
+            android:clickable="true">
 
             <TextView
                 android:layout_width="wrap_content"
@@ -181,15 +162,24 @@
                 android:text="关于"
                 android:id="@+id/textView17"
                 android:textColor="#111111"
-                android:padding="8dp" />
+                android:padding="8dp"
+                android:textSize="22sp" />
         </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="bottom"
+        android:padding="10dp">
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="退出"
             android:id="@+id/button10" />
-
     </LinearLayout>
 
 </LinearLayout>

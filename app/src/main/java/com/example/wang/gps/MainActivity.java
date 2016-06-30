@@ -38,6 +38,8 @@ import android.view.View;
 import android.view.Window;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -61,6 +63,7 @@ import com.baidu.mapapi.map.PolygonOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.map.Stroke;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 import org.json.JSONObject;
@@ -87,7 +90,9 @@ public class MainActivity extends Activity {
      * dell git test
      */
     private Calendar cc;
-
+    RadioButton draw;
+    RadioButton drag;
+    RadioGroup mainradiogroup;
     //LocationListener locationListener;
     BaiduMapOptions baiduMapOptions;
     Button friend;
@@ -104,14 +109,15 @@ public class MainActivity extends Activity {
     OnLine onLine = new OnLine();
     ShowFootprint shof;
 
-    NotificationManager mNotificationManager;
+    static NotificationManager mNotificationManager;
 
+    // UiSettings uiSettings;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         SDKInitializer.initialize(getApplicationContext());
         requestWindowFeature(Window.FEATURE_CUSTOM_TITLE); //声明使用自定义标题
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.main);
         SysApplication.getInstance().addActivity(this);//退出功能注册
         FriendInf.getCo(getApplicationContext());
         Userinfo.gc(getApplication());
@@ -160,6 +166,25 @@ public class MainActivity extends Activity {
         // map.setMapType(BaiduMap.MAP_TYPE_SATELLITE);
         x = (TextView) findViewById(R.id.x);
         y = (TextView) findViewById(R.id.textView);
+        draw = (RadioButton) findViewById(R.id.radioButton3);
+        drag = (RadioButton) findViewById(R.id.radioButton4);
+        mainradiogroup = (RadioGroup) findViewById(R.id.mainradiogroup);
+        GPS.uiSettings = GPS.baiduMap.getUiSettings();//控制地图的手势
+        mainradiogroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(RadioGroup group, int checkedId) {
+                if (checkedId == drag.getId()) {
+                    drawtrace.isdrag = true;
+                    GPS.uiSettings.setAllGesturesEnabled(true);
+                    // drawtrace.isdraw=false;
+                }
+                if (checkedId == draw.getId()) {
+                    drawtrace.isdrag = false;
+                    GPS.uiSettings.setAllGesturesEnabled(false);
+                    // drawtrace.isdraw=true;
+                }
+            }
+        });
         addr = (TextView) findViewById(R.id.textView8);
         ok = (Button) findViewById(R.id.button);
         GPS.locationManager = (LocationManager) this.getSystemService(Context.LOCATION_SERVICE);
@@ -205,9 +230,9 @@ public class MainActivity extends Activity {
                 GPS.baiduMap.animateMapStatus(GPS.u);
                 GPS.mLocationClient.requestLocation();
                 //   GPS.startupdatalocation=true;
-              //  send(Userinfo.username,GPS.ad);
+                //  send(Userinfo.username,GPS.ad);
                 new Thread(new updatamarkerlocation()).start();
-                new OnLine().start();
+                // new OnLine().start();
                 // y.setText("经度为: " + Integer.valueOf(gg.pts.size()).toString());
 
             }
@@ -218,6 +243,14 @@ public class MainActivity extends Activity {
             public void onClick(View v) {
                 Intent gotoset = new Intent(getApplication(), com.example.wang.gps.systemseting.class);
                 startActivity(gotoset);
+            }
+        });
+        final Button tools = (Button) findViewById(R.id.button17);
+        tools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent gototools = new Intent(getApplication(), com.example.wang.gps.tools.class);
+                startActivity(gototools);
             }
         });
         mhandle = new Handler() {
@@ -436,6 +469,8 @@ public class MainActivity extends Activity {
     public class updatamarkerlocation implements Runnable {
         LatLng markerlocation;
         LatLng premarkerlocation;
+        boolean bound = false;
+        ArrayList<LatLng> getbound;
 
         public void run() {
             markerlocation = new LatLng(GPS.la, GPS.lo);
@@ -443,20 +478,28 @@ public class MainActivity extends Activity {
                 premarkerlocation = markerlocation;//保存marker移动前的坐标
                 markerlocation = new LatLng(GPS.la, GPS.lo);
                 Userinfo.usermarke.setPosition(markerlocation);//更新usermarker的位置
-                if (drawtrace.boundwatch) {
-                    for (int i = 2; i < drawtrace.getbound.size() - 1; i++) {
-                        double x1 = drawtrace.getbound.get(i).latitude;
-                        double y1 = drawtrace.getbound.get(i).longitude;
-                        double x2 = drawtrace.getbound.get(i + 1).latitude;
-                        double y2 = drawtrace.getbound.get(i + 1).longitude;
-                        boolean isbound = drawtrace.linesIntersect(premarkerlocation.latitude, premarkerlocation.longitude, markerlocation.latitude, markerlocation.longitude, x1, y1, x2, y2);
+                //遍历boundflag确定是否可以对边界检测
+                //遍历userbound获得要检测的线,List
+                //userpolyline为检测的线的引用，通过这个可以删除这个线
+                try {
+                    bound = drawtrace.boundflag.get(Userinfo.username);
+                    getbound = (ArrayList) drawtrace.userbound.get(Userinfo.username);
+                } catch (Exception e) {
+                    Log.e("没有这个用户的界限", "没有信心");
+                }
+                if (bound) {
+                    for (int i = 2; i < getbound.size() - 1; i++) {
+                        double x1 = getbound.get(i).latitude;
+                        double y1 = getbound.get(i).longitude;
+                        double x2 = getbound.get(i + 1).latitude;
+                        double y2 = getbound.get(i + 1).longitude;
+                        boolean isbound = linesIntersect(premarkerlocation.latitude, premarkerlocation.longitude, markerlocation.latitude, markerlocation.longitude, x1, y1, x2, y2);
                         // Log.e("对比第"+Integer.valueOf(i).toString(),"  为"+Boolean.valueOf(isbound).toString());
                         if (isbound) {//如果相交
-                            send(Userinfo.username,GPS.ad);
-                         //   Log.e("前一个marker坐标", "x= " + Double.valueOf(premarkerlocation.latitude).toString() + " y=" + Double.valueOf(premarkerlocation.longitude).toString());
-                           // Log.e("后一个marker坐标", "x= " + Double.valueOf(markerlocation.latitude).toString() + " y=" + Double.valueOf(markerlocation.longitude).toString());
-                            //Log.e("第" + Integer.valueOf(i).toString() + "个边界坐标", "x1= " + Double.valueOf(x1).toString() + " y1=" + Double.valueOf(y1).toString());
-                           // Log.e("第" + Integer.valueOf(i + 1).toString() + "个边界坐标", "x2= " + Double.valueOf(x2).toString() + " y2=" + Double.valueOf(y2).toString());
+                            send(Userinfo.username, GPS.ad, Userinfo.userhead);
+                            drawtrace.boundflag.remove(Userinfo.username);//探测完成后就删除这个flag
+                            //删除这个flag
+                            bound = false;
                         }
                     }
 
@@ -472,67 +515,73 @@ public class MainActivity extends Activity {
         }
     }
 
-    //    protected void onStart(){
-//        //voi；
-//    }
-    public void inf() {
-        //int icon = R.drawable.icon;
-        NotificationCompat.Builder mBuilder =
-                new NotificationCompat.Builder(this)
-                                .setLargeIcon(Userinfo.userhead)
-                                        .setContentTitle("My notification")
-                                        .setContentText("Hello World!");
-// Creates an explicit intent for an Activity in your app
-        Intent resultIntent = new Intent(this, MainActivity.class);
-
-// The stack builder object will contain an artificial back stack for the
-// started Activity.
-// This ensures that navigating backward from the Activity leads out of
-// your application to the Home screen.
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-// Adds the back stack for the Intent (but not the Intent itself)
-        stackBuilder.addParentStack(MainActivity.class);
-// Adds the Intent that starts the Activity to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(
-                        0,
-                        PendingIntent.FLAG_UPDATE_CURRENT
-                );
-        mBuilder.setContentIntent(resultPendingIntent);
-        NotificationManager mNotificationManager =
-                (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-// mId allows you to update the notification later on.
-        mNotificationManager.notify(1, mBuilder.build());
-    }
-    public  Drawable bitmapToDrawble(Bitmap bitmap,Context mcontext){
-        Drawable drawable = new BitmapDrawable(mcontext.getResources(), bitmap);
-        return drawable;
-    }
-
-
-    public void send(String username,String addr){
-        Notification noti=new Notification.Builder(this)
+    public void send(String username, String addr, Bitmap header) {
+        Notification noti = new Notification.Builder(this)
                 .setAutoCancel(true)
                 .setTicker("用户越界消息")
                 .setSmallIcon(R.drawable.che)
                 .setContentTitle(username)
                 .setContentText("越界位置: " + addr)
-                .setLargeIcon(Userinfo.userhead)
+                .setLargeIcon(header)
                 .getNotification();
-        noti.ledARGB=0XFFFF00;
-        noti.ledOnMS=500;
-        noti.ledOffMS=500;
+        noti.ledARGB = 0XFFFF00;
+        noti.ledOnMS = 500;
+        noti.ledOffMS = 500;
         noti.flags |= Notification.FLAG_SHOW_LIGHTS;
         noti.defaults |= Notification.DEFAULT_VIBRATE;
-        long[] vibrate = {0,100,200,300};
-        noti.vibrate = vibrate ;
+        long[] vibrate = {0, 100, 200, 300};
+        noti.vibrate = vibrate;
         noti.defaults |= Notification.DEFAULT_SOUND;
         noti.sound = Uri.withAppendedPath(MediaStore.Audio.Media.INTERNAL_CONTENT_URI, "6");
         mNotificationManager.notify(0, noti);
         mNotificationManager.cancel(1);
-     //   Log.e("通知", "ok");
+        //   Log.e("通知", "ok");
 
+    }
+
+    int relativeCCW(double x1, double y1,
+                    double x2, double y2,
+                    double px, double py) {
+        x2 -= x1;
+        y2 -= y1;
+        px -= x1;
+        py -= y1;
+        double ccw = px * y2 - py * x2;
+        if (ccw == 0.0) {
+            // The point is colinear, classify based on which side of
+            // the segment the point falls on.  We can calculate a
+            // relative value using the projection of px,py onto the
+            // segment - a negative value indicates the point projects
+            // outside of the segment in the direction of the particular
+            // endpoint used as the origin for the projection.
+            ccw = px * x2 + py * y2;
+            if (ccw > 0.0) {
+                // Reverse the projection to be relative to the original x2,y2
+                // x2 and y2 are simply negated.
+                // px and py need to have (x2 - x1) or (y2 - y1) subtracted
+                //    from them (based on the original values)
+                // Since we really want to get a positive answer when the
+                //    point is "beyond (x2,y2)", then we want to calculate
+                //    the inverse anyway - thus we leave x2 & y2 negated.
+                px -= x2;
+                py -= y2;
+                ccw = px * x2 + py * y2;
+                if (ccw < 0.0) {
+                    ccw = 0.0;
+                }
+            }
+        }
+        return (ccw < 0.0) ? -1 : ((ccw > 0.0) ? 1 : 0);
+    }
+
+    boolean linesIntersect(double x1, double y1,
+                           double x2, double y2,
+                           double x3, double y3,
+                           double x4, double y4) {
+        return ((relativeCCW(x1, y1, x2, y2, x3, y3) *
+                relativeCCW(x1, y1, x2, y2, x4, y4) <= 0)
+                && (relativeCCW(x3, y3, x4, y4, x1, y1) *
+                relativeCCW(x3, y3, x4, y4, x2, y2) <= 0));
     }
 
 }

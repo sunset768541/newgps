@@ -27,7 +27,7 @@ import java.util.Map;
  * 网络服务模块，提供了get方式和post方式提交数据
  */
 public class sendlocation {
-    static final String urlPath = "http://sunset.6655.la/android/aa";//使用内网用8080端口，80端口为外网
+    static final String urlPath = "http://sunset16405.xyz/androidask/aa";//使用内网用8080端口，80端口为外网
     static URL url;
     static boolean ppp;
     static HttpURLConnection conn;
@@ -36,6 +36,8 @@ public class sendlocation {
     public static String response = "2";
     static Context mycontex;
     public static String  jso;
+    public static boolean canoffline=true;
+    public static int rsponsecode;
     public static void getContext(Context context) {
         mycontex = context;
     }
@@ -93,6 +95,7 @@ public class sendlocation {
 
     public static void sendPostRequest(Map<String, String> params) {//post方式传递数据
         try {
+            rsponsecode=0;
             URL url = new URL(urlPath);
             StringBuilder sb = new StringBuilder();
             //sb.append('?');
@@ -129,8 +132,10 @@ public class sendlocation {
             Log.e("post1", ll);
             jso=ll;
             JSONUtile.getdatafromjson(ll,params.get("username"));
+
            // Userinfo.userhead=JSONUtile.base64ToBitmap((String)LL.get(params.get("username")));
           // Log.e("post", aa);
+            rsponsecode=conn.getResponseCode();
             if (conn.getResponseCode() == 200) {
                 System.out.println("服务器已经收到表单数据！");
             } else {
@@ -144,6 +149,7 @@ public class sendlocation {
                 //关闭连接 即设置 http.keepAlive = false;
                 conn.disconnect();
             }
+            //canoffline=true;
         }
     }
 //    public static String snn(Map<String,String> pa){//测试post产生表单

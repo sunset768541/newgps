@@ -79,7 +79,7 @@ public class markerDig extends Dialog {
         trace.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//新建一个线程去更新这个marker的坐标
-                ft = new friendtrace(arg, (Marker) parm.get("marker"));
+                ft = new friendtrace(arg, (Marker) parm.get("marker"),(Bitmap) parm.get("userhead"),mycontext);
                 FriendInf.markthred.put(arg, ft);//将这个线程的名字存入Hashmap中,在关闭时可以拿到这个线程的地址
                 ft.start();
                 markerDig.this.dismiss();
@@ -97,16 +97,35 @@ public class markerDig extends Dialog {
                 }
                 Marker marker=(Marker)parm.get("marker");//移除marker按钮的监听函数
                 marker.remove();//移除marker
-                markerDig.this.dismiss();//diglog消失
+
                 FriendInf.removefromfri(arg);//在FriendInf中删除marker列表中的朋友信息
+                try {
+                    drawtrace.userpolyline.get(arg).remove();
+
+                }
+                catch (NullPointerException e){
+
+                }
                 Toast.makeText(mycontext,"移除marker",Toast.LENGTH_SHORT).show();
+                markerDig.this.dismiss();//diglog消失
             }
         });
         outbound=(Button)findViewById(R.id.button14);
         outbound.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                drawtrace.drawpat(true);
+                drawtrace.isdraw=true;
+                drawtrace.drawpat(arg);
+                markerDig.this.dismiss();//diglog消失
+            }
+        });
+        Button removebound=(Button)findViewById(R.id.button20);
+        removebound.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                drawtrace.isdraw=false;
+                drawtrace.userpolyline.get(arg).remove();
+                markerDig.this.dismiss();//diglog消失
             }
         });
 

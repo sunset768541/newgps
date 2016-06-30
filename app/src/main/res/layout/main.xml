@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    
+
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.example.wang.gps.MainActivity"
     android:orientation="vertical"
-   >
+    >
 
     <FrameLayout
         android:layout_width="fill_parent"
@@ -45,10 +45,46 @@
             <Button
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="工具"
+                android:id="@+id/button17"
+                android:layout_weight="1" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:text="设置"
                 android:id="@+id/button3"
                 android:layout_weight="1"
                 android:layout_marginRight="5dp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:layout_marginRight="10dp">
+
+            <RadioGroup
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/mainradiogroup">
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="绘制"
+                    android:id="@+id/radioButton3"
+                    android:textColor="#ff111111" />
+
+                <RadioButton
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="拖动"
+                    android:id="@+id/radioButton4"
+                    android:textColor="#ff111111"
+                    android:checked="true" />
+            </RadioGroup>
         </LinearLayout>
 
         <LinearLayout
@@ -80,7 +116,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/switch2"
                         android:textOff="离线"
-                        android:textOn="在线" />
+                        android:textOn="在线"
+                        android:layout_marginRight="10dp" />
                 </LinearLayout>
 
             </LinearLayout>
@@ -118,7 +155,8 @@
                         android:layout_height="wrap_content"
                         android:id="@+id/switch3"
                         android:textOff="关闭"
-                        android:textOn="足迹" />
+                        android:textOn="足迹"
+                        android:layout_marginRight="10dp" />
                 </LinearLayout>
 
             </LinearLayout>

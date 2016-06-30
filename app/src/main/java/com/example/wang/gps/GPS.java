@@ -19,6 +19,7 @@ import com.baidu.mapapi.map.OverlayOptions;
 import com.baidu.mapapi.map.Polyline;
 import com.baidu.mapapi.map.PolylineOptions;
 import com.baidu.mapapi.map.Projection;
+import com.baidu.mapapi.map.UiSettings;
 import com.baidu.mapapi.model.LatLng;
 
 import java.util.ArrayList;
@@ -53,7 +54,10 @@ public class GPS {
     public static OverlayOptions option;
     public static BaiduMapOptions mapOptions;
     public  static Projection projection;
-   // public static String
+    public static UiSettings uiSettings;
+   public static int choicemaptype=0;
+
+    // public static String
    // public static OverlayOptions overlayOptions;
     public static void getLocation(){
 
