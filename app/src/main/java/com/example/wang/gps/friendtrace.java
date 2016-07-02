@@ -65,7 +65,7 @@ public class friendtrace extends Thread {
                 bound = drawtrace.boundflag.get(arg);//获取标志
                 getbound = (ArrayList) drawtrace.userbound.get(arg);//获取所画的线的经纬度
             } catch (Exception e) {
-                Log.e("没有这个用户的界限", "没有信心");
+                Log.e("没有这个用户的界限", Log.getStackTraceString(e));
             }
             if (bound) {
                 for (int i = 2; i < getbound.size() - 1; i++) {//确定
@@ -73,10 +73,12 @@ public class friendtrace extends Thread {
                     double y1 = getbound.get(i).longitude;
                     double x2 = getbound.get(i + 1).latitude;
                     double y2 = getbound.get(i + 1).longitude;
+                    Log.e("判断越界",arg);
                     boolean isbound = linesIntersect(Double.parseDouble((String) prdata.get("latitude")), Double.parseDouble((String) prdata.get("longtitude")), Double.parseDouble((String) showdata.get("latitude")), Double.parseDouble((String) showdata.get("longtitude")), x1, y1, x2, y2);
                     // Log.e("对比第"+Integer.valueOf(i).toString(),"  为"+Boolean.valueOf(isbound).toString());
                     if (isbound) {//如果相交
                         // MainActivity.send(,arg,showdata.get("address"),header);//通知
+                        Log.e(arg,"越界");
                         send();
                         bound = false;
                         drawtrace.boundflag.remove(arg);//探测完成后就删除这个flag
