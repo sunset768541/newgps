@@ -9,6 +9,7 @@ import java.util.List;
 
 /**
  * Created by sunset on 16/6/22.
+ * 多边形工具
  */
 public class polygonUtil {
 
@@ -16,7 +17,7 @@ public class polygonUtil {
         double distance= DistanceUtil.getDistance(p1,p2);
         return distance;
     }
-    public static double computealldistabce(List<LatLng> points){
+    public static double computealldistabce(List<LatLng> points){//计算所有的所有坐标的长度
         double distances=0;
         for (int i=0;i<points.size()-1;i++){
             distances=distances+computedistance(points.get(i),points.get(i+1));
@@ -24,7 +25,7 @@ public class polygonUtil {
 
         return distances;
     }
-    public static double computearea(List<LatLng> polygon){
+    public static double computearea(List<LatLng> polygon){//计算面积
         double area=0;
         if (!(polygon.size()<3)){
 //            for (int m=0;m<polygon.size();m++){

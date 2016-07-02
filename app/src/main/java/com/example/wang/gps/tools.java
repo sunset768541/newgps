@@ -36,6 +36,7 @@ import java.util.List;
 
 /**
  * Created by sunset on 16/6/24.
+ * 工具类，用于测面积和长度
  */
 public class tools extends Activity {
     public BaiduMap baidmap;

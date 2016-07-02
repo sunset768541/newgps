@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 /**
  * Created by sunset on 16/6/26.
+ * 关于界面
  */
 public class aboutdialog extends Dialog {
 
